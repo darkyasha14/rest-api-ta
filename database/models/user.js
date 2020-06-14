@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(20),
             allowNull: false,
 			unique: {
-                arg : true,
+                args : true,
                 msg : "username already exist"
 
             },
@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
 				notNull: true,
 				notEmpty: true,
 				max: 20,
-				min: 5
+                min: 5,
+                notContains: {
+                    args : ' ',
+                    msg : "username cannot contains ' '"
+                }
 			}
         },
         password: {
@@ -39,16 +43,19 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING(255),
-            unique: {
-                arg : true,
-                msg : "username already exist"
-
-            },
             allowNull: false,
+            unique: {
+                args : true,
+                msg : "username already exist"
+            },
             validate: {
                 isEmail: {
-                    arg : true,
+                    args : true,
                     msg : "email not valid"
+                },
+                notNull : {
+                    args : true,
+                    msg : " email is required"
                 }
             }
         },
@@ -57,10 +64,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true 
         },
         createdAt:{
-            type: DataTypes.DATE,allowNull: true, defaultValue: DataTypes.DATE.NOW
+            type: DataTypes.DATE,
+            allowNull: true, 
+            defaultValue: DataTypes.DATE.NOW
         },
         updatedAt:{
-            type: DataTypes.DATE,allowNull: true, defaultValue: DataTypes.DATE.NOW
+            type: DataTypes.DATE,
+            allowNull: true, 
+            defaultValue: DataTypes.DATE.NOW
         }
     }, 
     { 
