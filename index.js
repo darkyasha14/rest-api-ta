@@ -4,6 +4,7 @@ require('dotenv').config()
 
 const app = express()
 const route = require('./app/routes/route')
+const models = require('./database/models/index')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended : false }))
@@ -14,6 +15,14 @@ app.get('/', (req,res) => {
 
 app.use('/api/', route)
 
-app.listen(process.env.PORT, () => {
-    console.log('server is running')
+models.sequelize.sync({alter : true }).then(() => {
+    console.log("success connect to db");
+    app.listen(process.env.PORT, () => {
+        console.log('server is running')
+    })
+
+}).catch((err) => {
+    console.log(err);
+    
 })
+
