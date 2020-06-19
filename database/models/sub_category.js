@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         category_id : {
             type: DataTypes.BIGINT,
-            allowNull: false
+            allowNull: true
         },
         sub_category_name : {
             type: DataTypes.STRING(20),
@@ -23,6 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         sub_category_desc : {
             type: DataTypes.STRING(50),
             allowNull: false,
+        },
+        img_url: {
+            type: DataTypes.STRING(50),
+            allowNull: true
         },
         createdAt:{
             type: DataTypes.DATE,
