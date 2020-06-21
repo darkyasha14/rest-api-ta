@@ -2,7 +2,16 @@ const models = require('../../database/models')
 
 const getJasalist = async(req, res) => {
     try {
-        const data = await models.Jasa.findAll()
+        const data = await models.Jasa.findAll({
+            include : [ 
+                {
+                    model: models.Sub_category,
+                    include : [{
+                        model: models.Category
+                    }]
+                }
+            ]
+        })
 
         if(data.length > 0){
             return res.json({code: 0, message: 'successs get jasaa list', data: data})
@@ -22,7 +31,20 @@ const getJasalist = async(req, res) => {
 const getJasaById = async (req, res) => {
     try {
         const {id} = req.params
-        const data = await models.Jasa.findOne({where : {jasa_id : id}})
+        const data = await models.Jasa.findOne({
+            where : 
+            {
+                jasa_id : id
+            },
+            include : [ 
+                {
+                    model: models.Sub_category,
+                    include : [{
+                        model: models.Category
+                    }]
+                }
+            ]
+        })
         if(data){
             return res.json({code : 0, message : "Successfully get jasa by id", data : data})
         }else{

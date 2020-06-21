@@ -2,7 +2,16 @@ const models = require('../../database/models')
 
 const getCategorylist = async(req, res) => {
     try {
-        const data = await models.Category.findAll()
+        const data = await models.Category.findAll({
+            include : [ 
+                {
+                    model: models.Sub_category,
+                    include : [{
+                        model: models.Jasa
+                    }]
+                }
+            ]
+        })
 
         if(data.length > 0){
             return res.json({code: 0, message: 'successs get list category', data: data})
@@ -10,6 +19,8 @@ const getCategorylist = async(req, res) => {
             return res.json({code: 1, message: 'data not found', data: null})
         }
     } catch (error) {
+        console.log(error);
+        
         if(error.message){
             return res.json({code: 1, message: error.message, data: null})
         }else{
@@ -22,7 +33,17 @@ const getCategorylist = async(req, res) => {
 const getCategoryById = async (req, res) => {
     try {
         const {id} = req.params
-        const data = await models.Category.findOne({where : {category_id : id}})
+        const data = await models.Category.findOne({
+            where : 
+            {
+                category_id : id
+            },
+            include : [
+                {
+                    model : models.Sub_category
+                }
+            ]
+        })
         if(data){
             return res.json({code : 0, message : "Successfully get category by id", data : data})
         }else{

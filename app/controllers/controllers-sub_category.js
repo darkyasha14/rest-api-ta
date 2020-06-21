@@ -1,9 +1,17 @@
 const models = require('../../database/models')
-const category = require('../../database/models/category')
 
 const getSubCategorylist = async(req, res) => {
     try {
-        const data = await models.Sub_category.findAll()
+        const data = await models.Sub_category.findAll({
+            include : [ 
+                {
+                    model: models.Jasa
+                },
+                {
+                    model: models.Category
+                }
+            ]
+        })
 
         if(data.length > 0){
             return res.json({code: 0, message: 'successs get sub_category list', data: data})
@@ -23,7 +31,20 @@ const getSubCategorylist = async(req, res) => {
 const getSubCategoryById = async (req, res) => {
     try {
         const {id} = req.params
-        const data = await models.Sub_category.findOne({where : {sub_category_id : id}})
+        const data = await models.Sub_category.findOne({
+            where : 
+            {
+                sub_category_id : id
+            },
+            include : [ 
+                {
+                    model: models.Jasa
+                },
+                {
+                    model: models.Category
+                }
+            ]
+        })
         if(data){
             return res.json({code : 0, message : "Successfully get sub_category by id", data : data})
         }else{
