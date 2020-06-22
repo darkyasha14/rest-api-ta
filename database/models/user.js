@@ -7,6 +7,16 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
+        name: {
+            type: DataTypes.STRING(20),
+            allowNull: false,
+            validate: {
+                isAlpha: {
+                    args: true,
+                    msg : "name only allow letter"
+                 }
+             }
+        },
         username: {
             type: DataTypes.STRING(20),
             allowNull: false,
@@ -81,25 +91,15 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     User.removeAttribute('id');
-	// User.removeAttribute('createdAt');
-	// User.removeAttribute('updatedAt');
 
-	// User.associate = function(models) {
-	//       User.hasMany(models.UserSetting, {
-	// 		foreignKey: 'user_id',
-	// 		onDelete: 'CASCADE',
-	//       });
-
-	// 	User.belongsTo(models.UserGroup, {
-	// 		foreignKey: 'user_group_id',
-	// 		onDelete: 'CASCADE',
-	//       });
-
-	//       User.belongsTo(models.Employees, {
-	// 		foreignKey: 'employee_id',
-	// 		onDelete: 'CASCADE',
-	// 	});
-	// };
+    User.associate = (models) => {
+        User.hasOne(models.Profil, {
+            foreignKey: 'user_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
+    }
+	
 
 	return User;
 };
