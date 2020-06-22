@@ -43,9 +43,10 @@ const getUserById = async ( req,res) => {
 const createNewUser = async ( req, res) => {
     console.log(req.body);
     try {
-        const {username, password, email} = req.body
+        const {name, username, password, email} = req.body
 
         const data = await models.User.create({
+            name: name,
             username : username,
             password : password,
             email : email
@@ -70,13 +71,14 @@ const updateUser = async (req, res) => {
         console.log(req.params);
         console.log(req.body);
 
-        const {username, password, email} = req.body
+        const {name, username, password, email} = req.body
         const {id} = req.params
 
         const data = await models.User.findOne({where : {user_id : id}})
 
         if(data){
             const update = await models.User.update({
+                name: name,
                 username: username,
                 password : password,
                 email: email,
