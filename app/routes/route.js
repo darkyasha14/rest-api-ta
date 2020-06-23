@@ -14,7 +14,7 @@ const auth = require('../middlewares/authenticate')
 
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, './../tmp/')
+      cb(null, './tmp/')
     },
     filename: (req, file, cb) => {
       cb(null, file.fieldname + '-' + Date.now())
@@ -45,7 +45,7 @@ router.put('/category/:id', controllersCategory.updateCategory)
 router.get('/sub-category/',    controllersSubCategory.getSubCategorylist)
 router.get('/sub-category/:id', controllersSubCategory.getSubCategoryById)
 router.post('/sub-category/',      upload.single("img_url"), controllersSubCategory.createSubCategory)
-router.put('/sub-category/:id',     controllersSubCategory.updateSubCategory)
+router.put('/sub-category/:id',    upload.single("img_url"), controllersSubCategory.updateSubCategory)
 
 router.get('/jasa/',        controllersJasa.getJasalist)
 router.get('/jasa/:id',     controllersJasa.getJasaById)
