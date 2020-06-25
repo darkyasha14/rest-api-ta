@@ -58,6 +58,11 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         })
+        Jasa.hasMany(models.Booking, {
+            foreignKey: 'jasa_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
     }
 
     return Jasa
