@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         phone : {
             type : DataTypes.INTEGER(13),
-            allowNull: false,
+            allowNull: true,
             validate : {
                 isNumeric: {
                     args : true,

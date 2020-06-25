@@ -8,9 +8,12 @@ const controllersHotel = require('../controllers/controllers-hotel')
 const controllersCategory = require('../controllers/controllers-category')
 const controllersSubCategory = require('../controllers/controllers-sub_category')
 const controllersJasa = require('../controllers/controllers-jasa')
+const controolersBooking = require ('../controllers/controllers-booking')
 
 const isAuthenticate = require('../middlewares/verify-token')
 const auth = require('../middlewares/authenticate')
+const controllersUser_profil = require("../controllers/controllers-user_profil")
+const controllersBooking = require("../controllers/controllers-booking")
 
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -52,6 +55,11 @@ router.get('/jasa/:id',     controllersJasa.getJasaById)
 router.post('/jasa/',       controllersJasa.createJasa)
 router.put('/jasa/:id',     controllersJasa.updateJasa)
 
+router.get('/profil/', isAuthenticate, controllersUser_profil.getProfilDetail)
+router.get('/profil/:id', isAuthenticate, controllersUser_profil.getProfilbuUserID)
+router.post('/profil/', isAuthenticate, upload.single("img_url"), controllersUser_profil.createProfil)
+
+router.post('/booking/', isAuthenticate, controllersBooking.createNewBooking)
 
 
 
