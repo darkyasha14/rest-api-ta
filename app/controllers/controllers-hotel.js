@@ -1,6 +1,5 @@
 const models = require('../../database/models')
-const { delelteUser } = require('./controllers-user')
-const { response } = require('express')
+
 
 const getAllRomm = async(req, res) => {
     try {

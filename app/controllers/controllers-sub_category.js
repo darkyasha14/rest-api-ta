@@ -169,7 +169,16 @@ const updateSubCategory = async(req, res) => {
                         }
                     })
 
-                    const updateData = await models.Sub_category.findOne({where: {sub_category_id: id} })
+                    const updateData = await models.Sub_category.findOne({where: {sub_category_id: id},
+                        include : [ 
+                            {
+                                model: models.Jasa,
+                            },
+                            {
+                                model: models.Category, attributes : ['category_name', 'category_desc']
+                            }
+                        ]
+                    })
 
                     return res.status(201).json({code: 0, message: 'post successfully updated', data: updateData})
                 }else{

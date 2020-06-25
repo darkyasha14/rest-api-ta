@@ -1,3 +1,4 @@
+// const models = require ('../../database/models')
 const models = require('../../database/models')
 
 const getAllUser = async( req,res) => {
@@ -12,7 +13,6 @@ const getAllUser = async( req,res) => {
     } catch  (error){
         if(error.message){
             return res.json({"code" : 1, "message" : error.message, "data" : null});
-
         }else{
             return res.json({"code": 1, "message": error, "data": null})
         }
