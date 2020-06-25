@@ -60,6 +60,7 @@ router.get('/profil/:id', isAuthenticate, controllersUser_profil.getProfilbuUser
 router.post('/profil/', isAuthenticate, upload.single("img_url"), controllersUser_profil.createProfil)
 
 router.post('/booking/', isAuthenticate, controllersBooking.createNewBooking)
+router.post('/booking-list/:id', isAuthenticate, controllersBooking.getBookingList)
 
 
 
