@@ -48,18 +48,14 @@ const getBookingList = async(req, res) => {
     try {
         const {id} = req.params
 
-        const data = await models.User.findOne({where : {user_id: id},
-            include : [ 
-                {
-                    model: models.Booking,
+        const data = await models.Booking.findAll({where :{user_id: id},
+                include : [{
+                    model: models.Jasa,
                     include : [{
-                        model: models.Jasa,
-                        include : [{
-                            model: models.Sub_category
-                        }]
+                        model: models.Sub_category
                     }]
-                }
-            ]})
+                }]
+            })
 
         if(data){
             return res.json({code: 0, message: 'successs get booking list', data: data})
@@ -67,6 +63,7 @@ const getBookingList = async(req, res) => {
             return res.json({code: 1, message: 'data not found', data: null})
         }
     } catch (error) {
+        console.log(error)
         if(error.errors){
             res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
         }else{
@@ -75,7 +72,33 @@ const getBookingList = async(req, res) => {
     }
 }
 
+const getAllBookingList = async(req, res) => {
+    try {
+        const data = await models.Booking.findAll({
+                include : [{
+                    model: models.Jasa,
+                    include : [{
+                        model: models.Sub_category
+                    }]
+                }]
+            })
+
+        if(data){
+            return res.json({code: 0, message: 'successs get all booking list', data: data})
+        }else{
+            return res.json({code: 1, message: 'data not found', data: null})
+        }
+    } catch (error) {
+        console.log(error)
+        if(error.errors){
+            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+        }else{
+            res.status(400).json({"code" : 1, "message" : error, "data": null})
+        }
+    }
+}
 module.exports = {
     createNewBooking,
-    getBookingList
+    getBookingList,
+    getAllBookingList
 }
