@@ -33,6 +33,7 @@ router.get('/user/',        isAuthenticate, controllerUser.getAllUser)
 router.post('/user',        controllerUser.createNewUser)
 router.put('/user/:id',     controllerUser.updateUser)
 router.delete('/user/:id',  controllerUser.delelteUser)
+router.get('/user/activate-account/:id', controllerUser.activateAccount)
 
 router.get('/hotel/',       controllersHotel.getAllRomm)
 router.get('/hotel/:id',    controllersHotel.getRoomById)
