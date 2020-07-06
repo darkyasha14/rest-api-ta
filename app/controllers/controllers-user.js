@@ -1,5 +1,6 @@
 // const models = require ('../../database/models')
 const models = require('../../database/models')
+const mail = require('../helper/send-email')
 
 const getAllUser = async( req,res) => {
     try {
@@ -44,7 +45,8 @@ const createNewUser = async ( req, res) => {
     console.log(req.body);
     try {
         const {name, username, password, email} = req.body
-
+        const fullUrl = req.protocol + '://' + req.get('host') + req.baseUrl // http or https, http://goest2nobel.com/api
+        
         const data = await models.User.create({
             name: name,
             username : username,
@@ -52,7 +54,16 @@ const createNewUser = async ( req, res) => {
             email : email
         })
         if(data){
-            return res.status(201).json({"code" : 0, "message" : "success add new user", "data": data})
+            const params = {
+                username: data.dataValues.username,
+                password: data.dataValues.password,
+                email: data.dataValues.email,
+                api: fullUrl + '/user/activate-account/' + data.dataValues.user_id
+            }
+
+            await mail.sendMailRegister(params)
+
+            return res.status(201).json({"code" : 0, "message" : "success register, please check your email to verify your account", "data": data})
         }else{
             return res.json({"code": 1, "message" : "add new user failed", "data": null})
         }        
@@ -134,11 +145,41 @@ const delelteUser = async (req, res) => {
 
 }
 
+const activateAccount = async (req,res) => {
+    try {
+        const {id} = req.params
+
+        const data = await models.User.findOne({where : {user_id : id}})
+
+        if(data){
+            const update = await models.User.update({
+                is_login: true,
+                update_at: new Date()
+
+            },{where : {user_id : id}})
+            if(update){
+                return res.send('<h1>your account success actived, now you can login</h1>')
+            }else{
+                return res.send('<h1>failed to active account</h1>')
+            }
+        }else{
+            return res.json('<h1>failed to active account</h1>')
+        }
+    } catch (error) {
+        if(error.message){
+            return res.send(error.message);
+        }else{
+            return res.send(error)
+        }
+    }
+}
+
 
 module.exports = {
     getAllUser,
     getUserById,
     createNewUser,
     updateUser,
-    delelteUser
+    delelteUser,
+    activateAccount
 }
