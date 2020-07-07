@@ -26,25 +26,56 @@ const sendMailRegister = async (params) => {
         html: mustache.render(template, params),
         attachments:[
             {
-                filename : 'g1.png',
-                path: path.join(__dirname + './../../public/views/images/g1.png'),
+                filename : 'gi.png',
+                path: path.join(__dirname + './../../public/views/images/gi.png'),
                 cid : 'g1'
-            },
-            {
-                filename : 'fb.png',
-                path: path.join(__dirname + './../../public/views/images/fb.png'),
-                cid : 'fb'
-            },
-            {
-                filename : 'tw.gif',
-                path: path.join(__dirname + './../../public/views/images/ig.png'),
-                cid : 'ig'
             }
         ]
+           
         // html: `<h4>Your Account Has Been Registered!</h4>`,
         // text: "Your Account Has Been Registered!"
     };
-    
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log("Failed: ", error);
+        } else {
+            console.log('Email sent: ' + JSON.parse(info));
+        }
+    });
+}
+
+const sendMailPayment = async(params) => {
+    const template = await fs.readFileSync('./public/views/booking-payment.html', 'utf8')
+    var transporter = await nodemailer.createTransport(config);
+
+    var mailOptions = {
+        from: '"GoesToNobel" info@goes2nobel.com',
+        to: params.email,
+        subject: '[Payment Order] Booking Order',
+        html: mustache.render(template, params),
+        attachments:[
+            {
+                filename : 'mandiri.png',
+                path: path.join(__dirname + './../../public/views/images/mandiri.png'),
+                cid : 'mandiri'
+            },
+            {
+                filename : 'bni.png',
+                path: path.join(__dirname + './../../public/views/images/bni.png'),
+                cid : 'bni'
+            },
+            {
+                filename : 'dana.png',
+                path: path.join(__dirname + './../../public/views/images/dana.png'),
+                cid : 'dana'
+            },
+            {
+                filename : 'gopay.png',
+                path: path.join(__dirname + './../../public/views/images/gopay.png'),
+                cid : 'gopay'
+            }
+        ]
+    }
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.log("Failed: ", error);
@@ -95,4 +126,4 @@ const sendMailRegister2 = async (params) => {
     });
 }
 
-module.exports = { sendMailRegister, sendMailRegister2}
+module.exports = { sendMailRegister, sendMailRegister2, sendMailPayment}

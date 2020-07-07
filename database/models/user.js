@@ -48,9 +48,13 @@ module.exports = (sequelize, DataTypes) => {
                 len: {
                     args :[8,99],
                     msg :"password must 8 charracter"
+                },
+                is: {
+                    args: /^((?!true|false|TRUE|FALSE).){1,255}$/i,
+                    msg: "password must be string"
                 }
+                    
             },
-            
         },
         email: {
             type: DataTypes.STRING(255),

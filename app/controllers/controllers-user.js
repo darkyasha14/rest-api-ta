@@ -2,7 +2,7 @@
 const models = require('../../database/models')
 const mail = require('../helper/send-email')
 
-const getAllUser = async( req,res) => {
+const getAllUser = async(req,res) => {
     try {
         const data = await models.User.findAll()
 
@@ -57,6 +57,7 @@ const createNewUser = async ( req, res) => {
             const params = {
                 username: data.dataValues.username,
                 password: data.dataValues.password,
+                name: data.dataValues.name,
                 email: data.dataValues.email,
                 api: fullUrl + '/user/activate-account/' + data.dataValues.user_id
             }
