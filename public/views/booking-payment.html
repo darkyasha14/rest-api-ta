@@ -4,6 +4,32 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>template register</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    .button {
+      border: none;
+      border-radius: 4px;
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 4px 2px;
+      transition-duration: 0.4s;
+      cursor: pointer;
+    }
+    .button2 {
+      background-color: white; 
+      color: #008CBA; 
+      border: 2px solid #008CBA;
+    }
+    
+    .button2:hover {
+      background-color: #008CBA;
+      color: white;
+    }
+    
+    </style>
 </head>
 <body style="margin: 0; padding: 0;">
     <table align="center" style="border: 1px solid #cccccc;" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
@@ -25,12 +51,79 @@
                       Hello {{name}}
                      <p font-color="#979696">please immediately make payment for your order </br>
                       you can chose the payment method bellow to complate your order</p>
-                     </br>
-                     <p style="color:#008CBA">Payment Method</p>
+        
                      </td>
                     </tr>
                     <tr>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 50px;">
+                                <tr>
+                                    <td align="right" bgcolor="#FF234F" height="30px" >
+                                       
+                                    </td>
+                                 <td width="99%" style="padding: 5px; font-family: Arial, sans-serif; font-size: 16px; color: #FF234F;">
+                                 <b>PAID</b> 
+                                 </td>
+                                </tr>
+                               </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table border="0" width="100%" bgcolor="#E0FEFF" style="margin-top: 50px; margin-bottom: 30px; border-top: 3px solid  #008CBA;">
+                                <tr>
+                                    <td width="100%" valign="center" style="font-family: Arial, sans-serif; font-size: 14px;padding: 5px; color: #979696;">
+                                    Detail Invoice</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff"  style="font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 20px;">
+                                <tr>
+                                 <td width="260" valign="center" style="padding: 5px;">
+                                    <p style="color: #979696;">Discount</p>
+                                 </td>
+                                 <td style="font-size: 0; line-height: 0;" width="20">
+                                  &nbsp;
+                                 </td>
+                                 <td width="260" valign="center"">
+                                  <p style="color: #008CBA;">Rp. {{jasa}}</p> 
+                                 </td>
+                                </tr>
+                                <tr>
+                                    <td width="260" valign="center" style="padding: 5px;">
+                                        <p style="color: #979696;">Discount</p>
+                                    </td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">
+                                     &nbsp;
+                                    </td>
+                                    <td width="260" valign="center">
+                                        <p style="color: #008CBA;">0%</p> 
+                                    </td>
+                                   </tr>
+                               </table>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td>
+                            <table  cellpadding="0" cellspacing="0" width="100%" height="30px" style="font-family: Arial, sans-serif; font-size: 14px; border: 1px solid #70bbd9; margin-bottom: 30px;">
+                                <tr>
+                                 <td width="70%" style="padding: 0 0 0 8px;">
+                                  Total  
+                                 </td>
+                                 <td width="30%"bgcolor="#70bbd9" style="padding: 0 0 0 8px;">
+                                  <p style="color:floralwhite">Rp. {{jasa}}</p> 
+                                 </td>
+                                </tr>
+                               </table>
+                        </td>
+                    </tr> 
+                    <tr>
                      <td>
+                     </br></br>
+                     <p style="color:#008CBA;">Payment Method</p></br>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#F9F9F9"  style="font-family: Arial, sans-serif; font-size: 14px;">
                             <tr>
                              <td width="260" valign="center" style="padding: 5px;">
@@ -79,38 +172,21 @@
                            </table>
                      </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 50px;">
-                                <tr>
-                                    <td align="right" bgcolor="#FF234F" height="30px" >
-                                       
-                                    </td>
-                                 <td width="99%" style="padding: 5px; font-family: Arial, sans-serif; font-size: 16px; color: #FF234F;">
-                                 <b>PAID</b> 
-                                 </td>
-                                </tr>
-                               </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table border="0" width="100%" bgcolor="#E0FEFF" style="margin-top: 50px;">
-                                <tr>
-                                    <td width="100%" valign="center" style="font-family: Arial, sans-serif; font-size: 14px;padding: 5px; color: #979696;">
-                                    Detail Invoice</td>
-                                </tr>
-                                
-                            </table>
-                            
-                        </td>
-                    </tr>
-                    
                    </table>
                </td>
         </tr>
         <tr>
-            <td bgcolor="#70bbd9" style="padding: 10px 0 5px 0;">
+            <td align="center">
+               <button class="button button2"><b>Pay Now</b></button>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+               &nbsp;
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="#70bbd9" style="padding: 10px 0 5px 0;" >
                 <table border="0" cellpadding="0" cellspacing="0" align="center">
                     <tr>
                         <td align="center" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
