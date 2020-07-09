@@ -55,6 +55,11 @@ const sendMailPayment = async(params) => {
         html: mustache.render(template, params),
         attachments:[
             {
+                filename : 'gi.png',
+                path: path.join(__dirname + './../../public/views/images/gi.png'),
+                cid : 'g1'
+            },
+            {
                 filename : 'mandiri.png',
                 path: path.join(__dirname + './../../public/views/images/mandiri.png'),
                 cid : 'mandiri'
@@ -76,6 +81,7 @@ const sendMailPayment = async(params) => {
             }
         ]
     }
+    console.log(params)
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             console.log("Failed: ", error);

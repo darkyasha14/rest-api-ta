@@ -8,7 +8,7 @@ const controllersHotel = require('../controllers/controllers-hotel')
 const controllersCategory = require('../controllers/controllers-category')
 const controllersSubCategory = require('../controllers/controllers-sub_category')
 const controllersJasa = require('../controllers/controllers-jasa')
-const controolersBooking = require ('../controllers/controllers-booking')
+const controllersPayment= require('../controllers/controllers-payment')
 
 const isAuthenticate = require('../middlewares/verify-token')
 const auth = require('../middlewares/authenticate')
@@ -63,6 +63,8 @@ router.post('/profil/', isAuthenticate, upload.single("img_url"), controllersUse
 router.post('/booking/', isAuthenticate, controllersBooking.createNewBooking)
 router.post('/booking-list/:id', isAuthenticate, controllersBooking.getBookingList)
 router.get('/booking-all-list/', isAuthenticate, controllersBooking.getAllBookingList)
+
+router.post('/payment/',  isAuthenticate, controllersPayment.createPayment)
 
 
 
