@@ -42,6 +42,11 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         })
+        Booking.hasOne(models.Payment, {
+            foreignKey: 'booking_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
     }
 
     return Booking
