@@ -111,9 +111,36 @@ const updateCategory = async(req, res) => {
     }
 }
 
+const deleteCategory = async (req,res) => {
+    try {
+        console.log(req.params);
+        const {id} = req.params
+
+        const data = await models.Category.findOne({where : {category_id : id}})
+        if(data){
+            const deleteCategory = await models.Category.destroy({where : {category_id : id}})
+            if(deleteCategory){
+                return res.json({"code" : 0, "message" : "delete data successfully", "data" : null})
+            }else{
+                return res.json({"code" : 1, "message" : "failed to delete data", "data" : null})
+            }
+        }else{
+            return res.json({"code" : 1, "message" : "data with the specified id not found", "data": null})
+        }
+    } catch (error) {
+        if(error.message){
+            return res.json({"code" : 1, "message" : error.message, "data" : null})
+        }else{
+            return res.json({"code" : 1, "message": error, "data" : null })
+        }
+    }
+
+}
+
 module.exports = {
     getCategorylist,
     getCategoryById,
     createCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 }
