@@ -21,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
             },
         },
         sub_category_desc : {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(255),
             allowNull: false,
         },
         img_url: {
-            type: DataTypes.STRING(50),
+            type: DataTypes.STRING(255),
             allowNull: true
         },
         createdAt:{
