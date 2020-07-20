@@ -1,5 +1,5 @@
 const {Router} = require("express")
-const multer = require('multer')
+const upload = require('../../app/helper/uploadFile')
 
 const router = Router()
 
@@ -15,16 +15,6 @@ const auth = require('../middlewares/authenticate')
 const controllersUser_profil = require("../controllers/controllers-user_profil")
 const controllersBooking = require("../controllers/controllers-booking")
 
-var storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, './tmp/')
-    },
-    filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now())
-    }
-});
-
-const upload = multer({storage: storage})
 
 router.post('/auth/', auth.login)
 
@@ -45,11 +35,13 @@ router.get('/category/',    controllersCategory.getCategorylist)
 router.get('/category/:id', controllersCategory.getCategoryById)
 router.post('/category/',   controllersCategory.createCategory)
 router.put('/category/:id', controllersCategory.updateCategory)
+router.delete('/category/:id', controllersCategory.deleteCategory)
 
 router.get('/sub-category/',    controllersSubCategory.getSubCategorylist)
 router.get('/sub-category/:id', controllersSubCategory.getSubCategoryById)
-router.post('/sub-category/',      upload.single("img_url"), controllersSubCategory.createSubCategory)
-router.put('/sub-category/:id',    upload.single("img_url"), controllersSubCategory.updateSubCategory)
+router.post('/sub-category/',      upload.uploadImg('img_url'), controllersSubCategory.createSubCategory)
+router.put('/sub-category/:id',    upload.uploadImg('img_url'), controllersSubCategory.updateSubCategory)
+router.delete('/sub-category/:id', controllersSubCategory.deleteSubCategory)
 
 router.get('/jasa/',        controllersJasa.getJasalist)
 router.get('/jasa/:id',     controllersJasa.getJasaById)
@@ -58,7 +50,7 @@ router.put('/jasa/:id',     controllersJasa.updateJasa)
 
 router.get('/profil/', isAuthenticate, controllersUser_profil.getProfilDetail)
 router.get('/profil/:id', isAuthenticate, controllersUser_profil.getProfilbuUserID)
-router.post('/profil/', isAuthenticate, upload.single("img_url"), controllersUser_profil.createProfil)
+router.post('/profil/', isAuthenticate, controllersUser_profil.createProfil)
 
 router.post('/booking/', isAuthenticate, controllersBooking.createNewBooking)
 router.post('/booking-list/:id', isAuthenticate, controllersBooking.getBookingList)
