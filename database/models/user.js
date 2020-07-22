@@ -61,7 +61,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: {
                 args : true,
-                msg : "username already exist"
+                msg : "email already exist"
             },
             validate: {
                 isEmail: {
