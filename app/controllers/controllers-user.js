@@ -1,6 +1,7 @@
 // const models = require ('../../database/models')
 const models = require('../../database/models')
 const mail = require('../helper/send-email')
+const domain = require('./../helper/getDomain')
 
 const getAllUser = async(req,res) => {
     try {
@@ -45,7 +46,7 @@ const createNewUser = async ( req, res) => {
     console.log(req.body);
     try {
         const {name, username, password, email} = req.body
-        const fullUrl = req.protocol + '://' + req.get('host') + req.baseUrl // http or https, http://goest2nobel.com/api
+        const fullUrl = await domain.getFullDomainURL(req) + req.baseUrl // http or https, http://goest2nobel.com/api
         
         const data = await models.User.create({
             name: name,
@@ -61,6 +62,8 @@ const createNewUser = async ( req, res) => {
                 email: data.dataValues.email,
                 api: fullUrl + '/user/activate-account/' + data.dataValues.user_id
             }
+
+            console.log(params.api)
 
             await mail.sendMailRegister(params)
 
