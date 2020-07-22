@@ -87,7 +87,7 @@ const createSubCategory = async(req, res) => {
 
             const tempPath = await req.file.path                                                                       // ambil file path setelah di upload di folder tmp
             const targetPath = await path.resolve(process.env.IMG_PATH_UPLOAD) + '/' + titleImg(sub_category_name) + ".png"        // ganti setiap file yg di upload menjadi .png
-            const urlFile = await domainName + process.env.IMG_PATH_UPLOAD + titleImg(sub_category_name) + '.png'                      // buat url untuk image tsb
+            const urlFile = await domainName + "/" + process.env.IMG_PATH_UPLOAD + titleImg(sub_category_name) + '.png'                      // buat url untuk image tsb
             console.log(urlFile)
 
             const data = await models.Sub_category.create({
@@ -178,7 +178,7 @@ const updateSubCategory = async(req, res) => {
 
                 const tempPath = await req.file.path                                                                       // ambil file path setelah di upload di folder tmp
                 const targetPath = await path.resolve(process.env.IMG_PATH_UPLOAD) + '/' + titleImg(sub_category_name) + ".png"        // ganti setiap file yg di upload menjadi .png
-                const urlFile = await domainName + process.env.IMG_PATH_UPLOAD + titleImg(sub_category_name) + '.png'                      // buat url untuk image tsb
+                const urlFile = await domainName + "/" + process.env.IMG_PATH_UPLOAD + titleImg(sub_category_name) + '.png'                      // buat url untuk image tsb
                 console.log(urlFile)                       // buat url untuk image tsb
   
                 const update = await models.Sub_category.update({
