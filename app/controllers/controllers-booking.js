@@ -1,4 +1,5 @@
 const models = require('../../database/models')
+const invoice = require('./../helper/get-invoice')
 
 
 const createNewBooking = async ( req, res) => {
@@ -7,26 +8,28 @@ const createNewBooking = async ( req, res) => {
         const {user_id, jasa_id} = req.body
 
         const data = await models.Booking.create({
+            invoice_no: invoice.getInvoice(),
             user_id : user_id,
             jasa_id : jasa_id,
+            payment_status : "UNPAID"
         })
 
         if(data){
             console.log("Data =>", data.dataValues)
 
             const data_result = await models.Booking.findOne({
-                where : {booking_id : data.dataValues.booking_id},
-                include : [ 
-                    {
-                        model: models.Jasa,
-                        include : [{
-                            model: models.Sub_category,
-                            include : [{
-                                model: models.Category
-                            }]
-                        }]
-                    }
-                ]
+                where : {invoice_no : data.dataValues.invoice_no},
+                // include : [ 
+                //     {
+                //         model: models.Jasa,
+                //         include : [{
+                //             model: models.Sub_category,
+                //             include : [{
+                //                 model: models.Category
+                //             }]
+                //         }]
+                //     }
+                // ]
             })
 
             return res.status(201).json({"code" : 0, "message" : "booking successfully", "data": data_result})
