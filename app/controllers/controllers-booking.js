@@ -1,5 +1,6 @@
 const models = require('../../database/models')
-const invoice = require('./../helper/get-invoice')
+const invoice = require('./../helper/get-invoice');
+
 
 
 const createNewBooking = async ( req, res) => {
@@ -19,17 +20,17 @@ const createNewBooking = async ( req, res) => {
 
             const data_result = await models.Booking.findOne({
                 where : {invoice_no : data.dataValues.invoice_no},
-                // include : [ 
-                //     {
-                //         model: models.Jasa,
-                //         include : [{
-                //             model: models.Sub_category,
-                //             include : [{
-                //                 model: models.Category
-                //             }]
-                //         }]
-                //     }
-                // ]
+                include : [ 
+                    {
+                        model: models.Jasa,
+                        include : [{
+                            model: models.Sub_category,
+                            include : [{
+                                model: models.Category
+                            }]
+                        }]
+                    }
+                ]
             })
 
             return res.status(201).json({"code" : 0, "message" : "booking successfully", "data": data_result})
@@ -100,8 +101,58 @@ const getAllBookingList = async(req, res) => {
         }
     }
 }
+
+
+const updatePaymentStatus = async (req, res) => {
+    try {
+        const { invoice_no } = req.params
+
+        const getInvoice = await models.Booking.findOne({where: {invoice_no: invoice_no}})
+        
+        if(getInvoice){
+
+            // status payment sudah PAID
+            if(getInvoice.dataValues.payment_status === "PAID"){
+
+                return res.json({code: 0, message: "Payment status already PAID", data: getInvoice})
+            }else{
+
+                const data = await models.Booking.update({
+                    payment_status: "PAID",
+                    update_at: new Date()
+                }, { where: {invoice_no: invoice_no} })
+
+                // Jika sukses update payment status
+                if (data){
+
+                    //Insert ke table transaction complete
+                    await models.TransactionCom.create({
+                        user_id : getInvoice.dataValues.user_id,
+                        invoice_no : invoice_no,
+                    })
+    
+                    const updateData  = await models.Booking.findOne({where: {invoice_no: invoice_no}})
+    
+                    return res.json({code: 0, message: "success update payment status", data: updateData})
+                }else{
+                    return res.json({code: 0, message: "fail update payment status", data: null})
+                }
+            }
+        }else{
+            return res.json({code: 0, message: "invoice not found", data: null})
+        }
+    } catch (error) {
+        console.log(error)
+        if(error.errors){
+            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+        }else{
+            res.status(400).json({"code" : 1, "message" : error, "data": null})
+        }
+    }
+}
 module.exports = {
     createNewBooking,
     getBookingList,
-    getAllBookingList
+    getAllBookingList,
+    updatePaymentStatus
 }
