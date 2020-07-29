@@ -117,29 +117,37 @@ const updatePaymentStatus = async (req, res) => {
                 return res.json({code: 0, message: "Payment status already PAID", data: getInvoice})
             }else{
 
-                const data = await models.Booking.update({
-                    payment_status: "PAID",
-                    update_at: new Date()
-                }, { where: {invoice_no: invoice_no} })
+                // cek apakah payment sudah di konfirmasi
+                const getConfirmPayment = await models.ConPayment.findOne({where: {invoice_no: invoice_no}})
 
-                // Jika sukses update payment status
-                if (data){
-
-                    //Insert ke table transaction complete
-                    await models.TransactionCom.create({
-                        user_id : getInvoice.dataValues.user_id,
-                        invoice_no : invoice_no,
-                    })
+                if(getConfirmPayment){
+                    const data = await models.Booking.update({
+                        payment_status: "PAID",
+                        update_at: new Date()
+                    }, { where: {invoice_no: invoice_no} })
     
-                    const updateData  = await models.Booking.findOne({where: {invoice_no: invoice_no}})
+                    // Jika sukses update payment status
+                    if (data){
     
-                    return res.json({code: 0, message: "success update payment status", data: updateData})
-                }else{
-                    return res.json({code: 0, message: "fail update payment status", data: null})
+                        //Insert ke table transaction complete
+                        await models.TransactionCom.create({
+                            user_id : getInvoice.dataValues.user_id,
+                            conf_payment_id: getConfirmPayment.dataValues.conf_payment_id,
+                            invoice_no : invoice_no,
+                        })
+        
+                        const updateData  = await models.Booking.findOne({where: {invoice_no: invoice_no}})
+        
+                        return res.json({code: 0, message: "success update payment status", data: updateData})
+                    }else{
+                        return res.json({code: 1, message: "fail update payment status", data: null})
+                    }
+                }else{                                                                              // jika paymeny belum di konfirmasi
+                    return res.json({code: 1, message: "Payment not confirm yet", data: null})
                 }
             }
         }else{
-            return res.json({code: 0, message: "invoice not found", data: null})
+            return res.json({code: 1, message: "invoice not found", data: null})
         }
     } catch (error) {
         console.log(error)

@@ -4,11 +4,11 @@ const mail = require('../helper/send-email')
 const createPayment = async ( req, res) => {
     console.log(req.body);
     try {
-        const {user_id, booking_id} = req.body
+        const {invoice_no, user_id} = req.body
         
         const dataPayment = await models.Payment.create({
-            user_id : user_id,
-            booking_id : booking_id
+            user_id: user_id,
+            invoice_no : invoice_no
         })
 
         if(dataPayment){
