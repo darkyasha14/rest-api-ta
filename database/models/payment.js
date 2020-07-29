@@ -1,3 +1,5 @@
+'use strick'
+
 module.exports = (sequelize, DataTypes) => {
     const Payment = sequelize.define('Payment', {
         payment_id : {
@@ -9,9 +11,14 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BIGINT,
             allowNull: true
         },
-        booking_id : {
-            type: DataTypes.BIGINT,
-            allowNull: true
+        invoice_no : {
+            type: DataTypes.STRING(6),
+            allowNull: false,
+            unique: {
+                args : true,
+                msg : "invoice number must unique"
+
+            },
         },
         createdAt:{
             type: DataTypes.DATE,
@@ -36,9 +43,9 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'user_id',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
-        }),
+        })
         Payment.belongsTo(models.Booking, {
-            foreignKey: 'booking_id',
+            foreignKey: 'invoice_no',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         })
