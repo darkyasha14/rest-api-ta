@@ -9,6 +9,8 @@ const controllersCategory = require('../controllers/controllers-category')
 const controllersSubCategory = require('../controllers/controllers-sub_category')
 const controllersJasa = require('../controllers/controllers-jasa')
 const controllersPayment= require('../controllers/controllers-payment')
+const controllerconfirmPayment= require('../controllers/controllers-confirm_payment')
+const controllersTransactionComplate= require('../controllers/controllers-transaction_complate')
 
 const isAuthenticate = require('../middlewares/verify-token')
 const auth = require('../middlewares/authenticate')
@@ -47,16 +49,25 @@ router.get('/jasa/',        controllersJasa.getJasalist)
 router.get('/jasa/:id',     controllersJasa.getJasaById)
 router.post('/jasa/',       controllersJasa.createJasa)
 router.put('/jasa/:id',     controllersJasa.updateJasa)
+router.delete('/delete-jasa/:id', controllersJasa.deleteJasa)
 
 router.get('/profil/', isAuthenticate, controllersUser_profil.getProfilDetail)
 router.get('/profil/:id', isAuthenticate, controllersUser_profil.getProfilbuUserID)
-router.post('/profil/', isAuthenticate, controllersUser_profil.createProfil)
+router.post('/add-profil/',  upload.uploadImg('user_img'), isAuthenticate, controllersUser_profil.createProfil)
 
 router.post('/booking/', isAuthenticate, controllersBooking.createNewBooking)
 router.post('/booking-list/:id', isAuthenticate, controllersBooking.getBookingList)
 router.get('/booking-all-list/', isAuthenticate, controllersBooking.getAllBookingList)
+router.get('/booking/:invoice_no', controllersBooking.updatePaymentStatus)
 
 router.post('/payment/',  isAuthenticate, controllersPayment.createPayment)
+
+router.post('/confirm-payment/', upload.uploadImg('img_pay'), controllerconfirmPayment.confirmPayment)
+
+router.post('/payment-complate-list/:id', controllersTransactionComplate.transactionComplateList)
+router.post('/payment-complate-list/', controllersTransactionComplate.transactionComplateAllList)
+
+
 
 
 
