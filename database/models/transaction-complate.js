@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
 
             },
         },
+        conf_payment_id : {
+            type: DataTypes.BIGINT,
+            allowNull: false
+        },
         createdAt:{
             type: DataTypes.DATE,
             allowNull: true, 
@@ -41,11 +45,16 @@ module.exports = (sequelize, DataTypes) => {
     transactionCom.associate = (models) =>{
         transactionCom.belongsTo(models.User, {
             foreignKey: 'user_id',
-            onDelete: 'CASCADE',
-            onUpdate: 'CASCADE'
+            onDelete: 'RESTRICT',
+            onUpdate: 'RESTRICT'
         })
         transactionCom.belongsTo(models.Booking, {
             foreignKey: 'invoice_no',
+            onDelete: 'RESTRICT',
+            onUpdate: 'RESTRICT'
+        })
+        transactionCom.belongsTo(models.ConPayment, {
+            foreignKey: 'conf_payment_id',
             onDelete: 'RESTRICT',
             onUpdate: 'RESTRICT'
         })
