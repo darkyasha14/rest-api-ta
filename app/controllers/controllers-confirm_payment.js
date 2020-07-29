@@ -29,7 +29,7 @@ const confirmPayment = async(req, res) => {
             const urlFile = await domainName + "/" + process.env.IMG_PATH_UPLOAD + titleImg(invoice_no) + '.png'                      // buat url untuk image tsb
             console.log(urlFile)
 
-            const data = await models.conPayment.create({
+            const data = await models.ConPayment.create({
                 name: name,
                 email: email,
                 payment_date: payment_date,
