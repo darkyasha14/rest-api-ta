@@ -1,11 +1,15 @@
 'use strick'
 
 module.exports = (sequelize, DataTypes) => {
-    const conPayment = sequelize.define('conPayment', {
-        conPayment_id : {
+    const conPayment = sequelize.define('ConPayment', {
+        conf_payment_id : {
             type: DataTypes.BIGINT,
             primaryKey: true,
             autoIncrement: true
+        },
+        user_id : {
+            type: DataTypes.BIGINT,
+            allowNull: true
         },
         name: {
             type: DataTypes.STRING(20),
@@ -50,8 +54,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull : false
         },
         invoice_no : {
-            type: DataTypes.BIGINT(6),
-            allowNull: false
+            type: DataTypes.STRING(6),
+            allowNull: false,
+            unique: {
+                args : true,
+                msg : "invoice number must unique"
+
+            },
         },
         description : {
             type: DataTypes.STRING(255),
@@ -78,6 +87,19 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     conPayment.removeAttribute('id')
+
+    conPayment.associate = (models) =>{
+        conPayment.belongsTo(models.Booking, {
+            foreignKey: 'invoice_no',
+            onDelete: 'RESTRICT',
+            onUpdate: 'RESTRICT'
+        })
+        conPayment.hasOne(models.TransactionCom, {
+            foreignKey: 'conf_payment_id',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
+    }
 
 
     return conPayment
