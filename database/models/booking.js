@@ -1,9 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
     const Booking = sequelize.define('Booking', {
-        booking_id : {
-            type: DataTypes.BIGINT,
+        invoice_no : {
+            type: DataTypes.STRING(6),
             primaryKey: true,
-            autoIncrement: true
+            unique: {
+                args : true,
+                msg : "invoice number must unique"
+
+            },
         },
         user_id : {
             type: DataTypes.BIGINT,
@@ -12,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         jasa_id : {
             type: DataTypes.BIGINT,
             allowNull: true
+        },
+        payment_status:{
+            type: DataTypes.STRING(6),
+            allowNull: false 
         },
         createdAt:{
             type: DataTypes.DATE,
@@ -42,8 +50,18 @@ module.exports = (sequelize, DataTypes) => {
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         })
+        Booking.hasOne(models.ConPayment, {
+            foreignKey: 'invoice_no',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
         Booking.hasOne(models.Payment, {
-            foreignKey: 'booking_id',
+            foreignKey: 'invoice_no',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
+        Booking.hasOne(models.TransactionCom, {
+            foreignKey: 'invoice_no',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         })
