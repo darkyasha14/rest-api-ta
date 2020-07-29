@@ -115,9 +115,36 @@ const updateJasa = async(req, res) => {
     }
 }
 
+const deleteJasa = async (req,res) => {
+    try {
+        console.log(req.params);
+        const {id} = req.params
+
+        const data = await models.Jasa.findOne({where : {jasa_id : id}})
+        if(data){
+            const deleteRoom = await models.Jasa.destroy({where : {jasa_id : id}})
+            if(deleteRoom){
+                return res.json({"code" : 0, "message" : "delete data successfully", "data" : null})
+            }else{
+                return res.json({"code" : 1, "message" : "failed to delete data", "data" : null})
+            }
+        }else{
+            return res.json({"code" : 1, "message" : "data with the specified id not found", "data": null})
+        }
+    } catch (error) {
+        if(error.message){
+            return res.json({"code" : 1, "message" : error.message, "data" : null})
+        }else{
+            return res.json({"code" : 1, "message": error, "data" : null })
+        }
+    }
+
+}
+
 module.exports = {
     getJasalist,
     getJasaById,
     createJasa,
-    updateJasa
+    updateJasa,
+    deleteJasa
 }
