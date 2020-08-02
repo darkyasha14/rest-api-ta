@@ -23,7 +23,7 @@ const createPayment = async ( req, res) => {
                     ]
                 }
             )
-            console.log(data.dataValues.User.dataValues)
+            console.log(data.dataValues)
             const params = {
                 name: data.dataValues.User.dataValues.name,
                 email: data.dataValues.User.dataValues.email,

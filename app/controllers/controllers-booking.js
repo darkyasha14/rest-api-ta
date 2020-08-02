@@ -1,6 +1,6 @@
 const models = require('../../database/models')
 const invoice = require('./../helper/get-invoice');
-
+const mail = require('../helper/send-email')
 
 
 const createNewBooking = async ( req, res) => {
@@ -121,24 +121,46 @@ const updatePaymentStatus = async (req, res) => {
                 const getConfirmPayment = await models.ConPayment.findOne({where: {invoice_no: invoice_no}})
 
                 if(getConfirmPayment){
+
+                    // Update payment status menjadi PAID
                     const data = await models.Booking.update({
                         payment_status: "PAID",
                         update_at: new Date()
                     }, { where: {invoice_no: invoice_no} })
-    
+                    
                     // Jika sukses update payment status
                     if (data){
     
-                        //Insert ke table transaction complete
+                        //Insert data ke table transaction complete
                         await models.TransactionCom.create({
                             user_id : getInvoice.dataValues.user_id,
                             conf_payment_id: getConfirmPayment.dataValues.conf_payment_id,
                             invoice_no : invoice_no,
                         })
         
-                        const updateData  = await models.Booking.findOne({where: {invoice_no: invoice_no}})
-        
+                        // Get lagi data setelah di update
+                        const updateData  = await models.Booking.findOne(
+                                {
+                                    where: {invoice_no : invoice_no},
+                                    include: [
+                                        {
+                                            model : models.User,
+                                            attributes : ["name","email"]
+                                        }
+                                    ]
+                                }
+                            )
+
+                        console.log(updateData.dataValues)
+                        const params = {
+                            name: updateData.dataValues.User.dataValues.name,
+                            email: updateData.dataValues.User.dataValues.email,
+                        }
+            
+                        await mail.sendMailTransactionComplate(params)
+
                         return res.json({code: 0, message: "success update payment status", data: updateData})
+                       
                     }else{
                         return res.json({code: 1, message: "fail update payment status", data: null})
                     }
