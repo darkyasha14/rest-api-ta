@@ -20,8 +20,8 @@ const controllersBooking = require("../controllers/controllers-booking")
 
 router.post('/auth/', auth.login)
 
-router.get('/user/:id',     isAuthenticate, controllerUser.getUserById)
-router.get('/user/',        isAuthenticate, controllerUser.getAllUser)
+router.get('/user/:id',     controllerUser.getUserById)
+router.get('/user/',        controllerUser.getAllUser)
 router.post('/user',        controllerUser.createNewUser)
 router.put('/user/:id',     controllerUser.updateUser)
 router.delete('/user/:id',  controllerUser.delelteUser)
@@ -53,14 +53,14 @@ router.delete('/delete-jasa/:id', controllersJasa.deleteJasa)
 
 router.get('/profil/', isAuthenticate, controllersUser_profil.getProfilDetail)
 router.get('/profil/:id', isAuthenticate, controllersUser_profil.getProfilbuUserID)
-router.post('/add-profil/',  upload.uploadImg('user_img'), isAuthenticate, controllersUser_profil.createProfil)
+router.post('/add-profil/',  upload.uploadImg('user_img'), controllersUser_profil.createProfil)
 
-router.post('/booking/', isAuthenticate, controllersBooking.createNewBooking)
-router.post('/booking-list/:id', isAuthenticate, controllersBooking.getBookingList)
-router.get('/booking-all-list/', isAuthenticate, controllersBooking.getAllBookingList)
+router.post('/booking/',  controllersBooking.createNewBooking)
+router.post('/booking-list/:id',  controllersBooking.getBookingList)
+router.get('/booking-all-list/',  controllersBooking.getAllBookingList)
 router.get('/booking/:invoice_no', controllersBooking.updatePaymentStatus)
 
-router.post('/payment/',  isAuthenticate, controllersPayment.createPayment)
+router.post('/payment/',  controllersPayment.createPayment)
 
 router.post('/confirm-payment/', upload.uploadImg('img_pay'), controllerconfirmPayment.confirmPayment)
 
