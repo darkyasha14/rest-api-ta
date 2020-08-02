@@ -26,7 +26,13 @@ const getUserById = async ( req,res) => {
         console.log(req.params);
         
         const {id} = req.params
-        const data = await models.User.findOne({where : {user_id : id}})
+        const data = await models.User.findOne({where : {user_id : id},
+            include : [ 
+                {
+                    model: models.Profil
+                }
+            ]
+        })
 
         if(data){
             return res.json({"code" : 0, "message" : "success", "data" : data})
@@ -62,12 +68,23 @@ const createNewUser = async ( req, res) => {
                 email: data.dataValues.email,
                 api: fullUrl + '/user/activate-account/' + data.dataValues.user_id
             }
+            const getData = await models.Profil.findOne({
+                where : 
+                {
+                    user_id : data.dataValues.user_id
+                },
+                include : [ 
+                    {
+                        model: models.Profil
+                    }
+                ]
+            })
 
             console.log(params.api)
 
             await mail.sendMailRegister(params)
 
-            return res.status(201).json({"code" : 0, "message" : "success register, please check your email to verify your account", "data": data})
+            return res.status(201).json({"code" : 0, "message" : "success register, please check your email to verify your account", "data": getData})
         }else{
             return res.json({"code": 1, "message" : "add new user failed", "data": null})
         }        
