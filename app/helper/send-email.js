@@ -91,6 +91,32 @@ const sendMailPayment = async(params) => {
     });
 }
 
+const sendMailTransactionComplate = async(params) => {
+    const template = await fs.readFileSync('./public/views/transaction-complate-detail.html', 'utf8')
+    var transporter = await nodemailer.createTransport(config);
+
+    var mailOptions = {
+        from: '"GoesToNobel" info@goes2nobel.com',
+        to: params.email,
+        subject: '[Trasaction Complate] Detail Order',
+        html: mustache.render(template, params),
+        attachments:[
+            {
+                filename : 'gi.png',
+                path: path.join(__dirname + './../../public/views/images/gi.png'),
+                cid : 'g1'
+            }
+        ]
+    }
+    console.log(params)
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log("Failed: ", error);
+        } else {
+            console.log('Email sent: ' + JSON.parse(info));
+        }
+    });
+}
 
 
 const sendMailRegister2 = async (params) => {
@@ -132,4 +158,9 @@ const sendMailRegister2 = async (params) => {
     });
 }
 
-module.exports = { sendMailRegister, sendMailRegister2, sendMailPayment}
+module.exports = { 
+    sendMailRegister, 
+    sendMailRegister2, 
+    sendMailPayment,
+    sendMailTransactionComplate
+}
