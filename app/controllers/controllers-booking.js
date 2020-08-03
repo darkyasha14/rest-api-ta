@@ -52,7 +52,7 @@ const getBookingList = async(req, res) => {
     try {
         const {id} = req.params
 
-        const data = await models.Booking.findAll({where :{user_id: id},
+        const data = await models.Booking.findOne({where :{user_id: id},
                 include : [{
                     model: models.Jasa,
                     include : [{
