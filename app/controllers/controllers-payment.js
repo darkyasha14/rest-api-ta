@@ -38,9 +38,9 @@ const createPayment = async ( req, res) => {
     } catch (error) {
         console.log(error);
         if(error.errors){
-            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
         }else{
-            res.status(400).json({"code" : 1, "message" : error, "data": null})
+            res.json({"code" : 1, "message" : error, "data": null})
         }
     }
 }

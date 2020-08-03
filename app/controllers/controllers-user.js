@@ -106,9 +106,9 @@ const createNewUser = async ( req, res) => {
     } catch (error) {
         console.log(error);
         if(error.errors){
-            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
         }else{
-            res.status(400).json({"code" : 1, "message" : error, "data": null})
+            res.json({"code" : 1, "message" : error, "data": null})
         }
     }
 }
@@ -146,9 +146,9 @@ const updateUser = async (req, res) => {
     } catch (error) {
         console.log(error);
         if(error.errors){
-            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
         }else{
-            res.status(400).json({"code" : 1, "message" : error, "data": null})
+            res.json({"code" : 1, "message" : error, "data": null})
         }
     }    
 }
@@ -217,18 +217,35 @@ const createAdmin = async(req, res) => {
         const data = await models.User.findOne({where : {user_id : user_id}})
 
         if(data){
-            const update = await models.User.update({
-                is_admin: true,
-                update_at: new Date()
+            if(data.dataValues.is_admin === true){
+                const update = await models.User.update({
+                    is_admin: false,
+                    update_at: new Date()
+    
+                },{where : {user_id : user_id}})
+                if(update){
+                    const updateData = await models.User.findOne()
 
-            },{where : {user_id : user_id}})
-
-            if(update){
-                const updateData = await models.User.findAll({where : {user_id : user_id}})
-                return res.status(201).json({"code" : 0 ,"message" : "succuessfully", "data" : updateData})
+                    return res.json({code: 0, message: "user now lo longer as admin", data: updateData})
+                }else{
+                    return res.json({code: 1, message: "failled to update is_admin", data: data})
+                }
             }else{
-                return res.json({"code" : 1 ,"message" : "failled", "data" : null})
+                const update = await models.User.update({
+                    is_admin: true,
+                    update_at: new Date()
+    
+                },{where : {user_id : user_id}})
+    
+                if(update){
+                    const updateData = await models.User.findOne({where : {user_id : user_id}})
+                    return res.status(201).json({"code" : 0 ,"message" : "this user now is admin", "data" : updateData})
+                }else{
+                    return res.json({"code" : 1 ,"message" : "failled", "data" : null})
+                }
+
             }
+            
         }else{
             return res.json({"code" : 1 ,"message" : "failled", "data" : null})
         }

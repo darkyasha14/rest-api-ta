@@ -76,9 +76,9 @@ const createJasa = async(req, res) => {
         }
     } catch (error) {
         if(error.message){
-            return res.status(400).json({code: 1, message: error.message, data: null})
+            return res.json({code: 1, message: error.message, data: null})
         }else{
-            return res.status(400).json({code: 1, message: error, data: null})
+            return res.json({code: 1, message: error, data: null})
         }
     }
 }
@@ -108,9 +108,9 @@ const updateJasa = async(req, res) => {
         }
     } catch (error) {
         if(error.message){
-            return res.status(400).json({code: 1, message: error.errors[0].message, data: null})
+            return res.json({code: 1, message: error.errors[0].message, data: null})
         }else{
-            return res.status(400).json({code: 1, message: error, data: null})
+            return res.json({code: 1, message: error, data: null})
         }
     }
 }

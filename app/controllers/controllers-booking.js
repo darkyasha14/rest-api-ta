@@ -41,18 +41,18 @@ const createNewBooking = async ( req, res) => {
     } catch (error) {
         console.log(error);
         if(error.errors){
-            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
         }else{
-            res.status(400).json({"code" : 1, "message" : error, "data": null})
+            res.json({"code" : 1, "message" : error, "data": null})
         }
     }
 }
 
-const getBookingList = async(req, res) => {
+const getBookingListByUserId = async(req, res) => {
     try {
-        const {id} = req.params
+        const {user_id} = req.params
 
-        const data = await models.Booking.findOne({where :{user_id: id},
+        const data = await models.Booking.findAll({where :{user_id: user_id},
                 include : [{
                     model: models.Jasa,
                     include : [{
@@ -62,16 +62,44 @@ const getBookingList = async(req, res) => {
             })
 
         if(data){
-            return res.json({code: 0, message: 'successs get booking list', data: data})
+            return res.json({code: 0, message: 'successs get booking list by user ID', data: data})
         }else{
             return res.json({code: 1, message: 'data not found', data: null})
         }
     } catch (error) {
         console.log(error)
         if(error.errors){
-            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
         }else{
-            res.status(400).json({"code" : 1, "message" : error, "data": null})
+            res.json({"code" : 1, "message" : error, "data": null})
+        }
+    }
+}
+
+const getBookingByInvoice = async(req, res) => {
+    try {
+        const {invoice_no} = req.params
+
+        const data = await models.Booking.findAll({where :{invoice_no : invoice_no},
+                include : [{
+                    model: models.Jasa,
+                    include : [{
+                        model: models.Sub_category
+                    }]
+                }]
+            })
+
+        if(data){
+            return res.json({code: 0, message: 'successs get booking by invoice_no', data: data})
+        }else{
+            return res.json({code: 1, message: 'data not found', data: null})
+        }
+    } catch (error) {
+        console.log(error)
+        if(error.errors){
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
+        }else{
+            res.json({"code" : 1, "message" : error, "data": null})
         }
     }
 }
@@ -95,9 +123,9 @@ const getAllBookingList = async(req, res) => {
     } catch (error) {
         console.log(error)
         if(error.errors){
-            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
         }else{
-            res.status(400).json({"code" : 1, "message" : error, "data": null})
+            res.json({"code" : 1, "message" : error, "data": null})
         }
     }
 }
@@ -105,7 +133,7 @@ const getAllBookingList = async(req, res) => {
 
 const updatePaymentStatus = async (req, res) => {
     try {
-        const { invoice_no } = req.params
+        const { invoice_no } = req.body
 
         const getInvoice = await models.Booking.findOne({where: {invoice_no: invoice_no}})
         
@@ -174,15 +202,16 @@ const updatePaymentStatus = async (req, res) => {
     } catch (error) {
         console.log(error)
         if(error.errors){
-            res.status(400).json({"code": 1, "message": error.errors[0].message, "data" : null})
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
         }else{
-            res.status(400).json({"code" : 1, "message" : error, "data": null})
+            res.json({"code" : 1, "message" : error, "data": null})
         }
     }
 }
 module.exports = {
     createNewBooking,
-    getBookingList,
+    getBookingListByUserId,
+    getBookingByInvoice,
     getAllBookingList,
     updatePaymentStatus
 }
