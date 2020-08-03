@@ -58,6 +58,9 @@ const getBookingListByUserId = async(req, res) => {
                     include : [{
                         model: models.Sub_category
                     }]
+                },
+                {
+                    model: models.User
                 }]
             })
 
@@ -80,12 +83,15 @@ const getBookingByInvoice = async(req, res) => {
     try {
         const {invoice_no} = req.params
 
-        const data = await models.Booking.findAll({where :{invoice_no : invoice_no},
+        const data = await models.Booking.findOne({where :{invoice_no : invoice_no},
                 include : [{
                     model: models.Jasa,
                     include : [{
                         model: models.Sub_category
                     }]
+                },
+                {
+                    model: models.User
                 }]
             })
 
@@ -112,6 +118,9 @@ const getAllBookingList = async(req, res) => {
                     include : [{
                         model: models.Sub_category
                     }]
+                },
+                {
+                    model: models.User
                 }]
             })
 
