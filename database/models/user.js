@@ -83,6 +83,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
             defaultValue: false
         },
+        is_admin: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
+        },
         createdAt:{
             type: DataTypes.DATE,
             allowNull: true, 
