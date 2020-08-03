@@ -58,7 +58,7 @@ router.post('/add-profil/',  upload.uploadImg('user_img'), controllersUser_profi
 router.put('/update-profil/:id',  upload.uploadImg('user_img'), controllersUser_profil.updateProfil)
 
 router.post('/booking/',  controllersBooking.createNewBooking)
-router.post('/booking-list/:id',  controllersBooking.getBookingList)
+router.get('/booking-list/:id',  controllersBooking.getBookingList)
 router.get('/booking-all-list/',  controllersBooking.getAllBookingList)
 router.get('/booking/:invoice_no', controllersBooking.updatePaymentStatus)
 
@@ -66,8 +66,8 @@ router.post('/payment/',  controllersPayment.createPayment)
 
 router.post('/confirm-payment/', upload.uploadImg('img_pay'), controllerconfirmPayment.confirmPayment)
 
-router.post('/payment-complate-list/:id', controllersTransactionComplate.transactionComplateList)
-router.post('/payment-complate-list/', controllersTransactionComplate.transactionComplateAllList)
+router.get('/payment-complate-list/:id', controllersTransactionComplate.transactionComplateList)
+router.get('/payment-complate-list/', controllersTransactionComplate.transactionComplateAllList)
 
 
 
