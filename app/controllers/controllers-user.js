@@ -5,7 +5,13 @@ const domain = require('./../helper/getDomain')
 
 const getAllUser = async(req,res) => {
     try {
-        const data = await models.User.findAll()
+        const data = await models.User.findAll({
+            include : [ 
+                {
+                    model: models.Profil
+                }
+            ]
+        })
 
         if(data.length > 0 ){
             return res.json({"code" : 0, "message" : "success", "data" : data})
@@ -48,6 +54,7 @@ const getUserById = async ( req,res) => {
     }
 }
 
+
 const createNewUser = async ( req, res) => {
     console.log(req.body);
     try {
@@ -68,7 +75,15 @@ const createNewUser = async ( req, res) => {
                 email: data.dataValues.email,
                 api: fullUrl + '/user/activate-account/' + data.dataValues.user_id
             }
-            const getData = await models.Profil.findOne({
+            
+            // isi data profil 
+            await models.Profil.create({
+                user_id: data.dataValues.user_id,
+                phone: null,
+                user_img : null,
+            })
+
+            const getData = await models.User.findOne({
                 where : 
                 {
                     user_id : data.dataValues.user_id
@@ -195,6 +210,37 @@ const activateAccount = async (req,res) => {
     }
 }
 
+const createAdmin = async(req, res) => {
+    try {
+        const {user_id} = req.body
+
+        const data = await models.User.findOne({where : {user_id : user_id}})
+
+        if(data){
+            const update = await models.User.update({
+                is_admin: true,
+                update_at: new Date()
+
+            },{where : {user_id : user_id}})
+
+            if(update){
+                const updateData = await models.User.findAll({where : {user_id : user_id}})
+                return res.status(201).json({"code" : 0 ,"message" : "succuessfully", "data" : updateData})
+            }else{
+                return res.json({"code" : 1 ,"message" : "failled", "data" : null})
+            }
+        }else{
+            return res.json({"code" : 1 ,"message" : "failled", "data" : null})
+        }
+    } catch (error) {
+        if(error.message){
+            return res.send(error.message);
+        }else{
+            return res.send(error)
+        }
+    }
+}
+
 
 module.exports = {
     getAllUser,
@@ -202,5 +248,6 @@ module.exports = {
     createNewUser,
     updateUser,
     delelteUser,
-    activateAccount
+    activateAccount,
+    createAdmin
 }
