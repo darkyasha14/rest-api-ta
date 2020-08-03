@@ -33,10 +33,10 @@ const getProfilbuUserID = async ( req,res) => {
         console.log(req.params);
         
         const {id} = req.params
-        const data = await models.User.findOne({where : {user_id : id},
+        const data = await models.Profil.findOne({where : {user_id : id},
             include : [ 
                 {
-                    model: models.Profil
+                    model: models.User
                 }
             ]
         })
@@ -146,9 +146,117 @@ const createProfil = async(req, res) => {
     }
 }
 
+const updateProfil = async(req, res) => {
+    try {
+        const {id} = req.params
+        const {phone} = req.body
+
+        const data = await models.Profil.findOne({where : {user_id: id},
+            include : [ 
+                {
+                    model: models.User
+                }
+            ]
+        })
+        if(data){
+            console.log(data.dataValues);
+            if(req.file){
+                const domainName = await domain.getFullDomainURL(req)
+
+                const tempPath = await req.file.path                                                                       // ambil file path setelah di upload di folder tmp
+                const targetPath = await path.resolve(process.env.IMG_PATH_UPLOAD) + '/' + titleImg(data.dataValues.User.dataValues.username) + ".png"        // ganti setiap file yg di upload menjadi .png
+                const urlFile = await domainName + "/" + process.env.IMG_PATH_UPLOAD + titleImg(data.dataValues.User.dataValues.username) + '.png'                      // buat url untuk image tsb
+                console.log(urlFile)                       // buat url untuk image tsb
+  
+                const update = await models.Profil.update({
+                    phone: phone,
+                    user_img : urlFile,
+                    update_at: new Date()
+                },{where : {user_id: id}})
+    
+                // jika data success di update
+                if(update){
+                    const uploadData = await models.Profil.findOne({
+                        where : 
+                        {
+                            user_id : data.dataValues.user_id
+                        },
+                        include : [ 
+                            {
+                                model: models.User
+                            }
+                        ]
+                    })
+
+                    if(data.dataValues.user_img !== null){
+                        const imgName = path.basename(data.dataValues.user_img, '.png')                            // get filename yg berformat .png
+                        const imgPath = path.resolve(process.env.IMG_PATH_UPLOAD) + '/' + imgName + '.png' 
+                    
+                        // delete image yg lama, dengan mengambil path yg lama pada column thumbnail_url
+                        await fs.unlink(imgPath, err => {
+                            if(err){
+                                console.log(err)
+                        }
+                    })
+                    }
+                    
+                    
+                    // update dg image yg baru
+                    await fs.rename(tempPath, targetPath, err => {
+                        if (err){
+                            console.log(err);
+                        }
+                    })
+
+                    return res.status(201).json({code: 0, message: 'profil successfully updated', data: uploadData})
+                }else{
+                    return res.json({code: 1, message: "post failed updated", data: null})
+                }
+            }else{
+                const update = await models.Profil.update({
+                    phone: phone,
+                    update_at: new Date()
+                },{where : {user_id: id}})
+    
+                if(update){
+                    const uploadData = await models.Profil.findOne({
+                        where : 
+                        {
+                            user_id : data.dataValues.user_id
+                        },
+                        include : [ 
+                            {
+                                model: models.User
+                            }
+                        ]
+                    })
+
+                    return res.status(201).json({code: 0, message: 'successfully updated, no files updated', data: uploadData})
+                }else{
+                    return res.json({code: 1, message: "profil failed updated", data: null})
+                }
+            }
+        }else{
+            return res.json({code: 1, message: "user with the specified ID does not exists", data: null})
+        }
+    } catch (error) {
+        console.log(error)
+        if(req.file){
+            const tempPath = await req.file.path
+            fs.unlink(tempPath, err => console.log(err))
+        }
+        if(error.errors){
+           
+            return res.json({code: 1, message: error.errors[0].message, data: null})
+        }
+        else return res.json({code: 1, message: error, data: null})
+    }
+}
+
 
 module.exports = {
     getProfilDetail,
     getProfilbuUserID,
-    createProfil
+    createProfil,
+    updateProfil
 }
