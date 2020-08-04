@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             autoIncrement: true
         },
-        user_id : {
-            type: DataTypes.BIGINT,
-            allowNull: true
-        },
         name: {
             type: DataTypes.STRING(20),
             allowNull: false,
@@ -52,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: {
                 args : true,
-                msg : "invoice number must unique"
+                msg : "Confirm payment already submited, Please wait for a while until your payment is confirmed"
 
             },
         },
