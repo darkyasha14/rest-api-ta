@@ -59,17 +59,20 @@ router.put('/update-profil/:id',  upload.uploadImg('user_img'), controllersUser_
 
 router.post('/booking/',  controllersBooking.createNewBooking)
 router.get('/booking-list/',  controllersBooking.getAllBookingList)
-router.get('/booking/:invoice_no',  controllersBooking.getBookingByInvoice)
+router.get('/booking-detail/:invoice_no',  controllersBooking.getBookingByInvoice)
 router.get('/booking-list/:user_id',  controllersBooking.getBookingListByUserId)
 router.post('/booking-update-status/', controllersBooking.updatePaymentStatus)
 
 router.post('/payment/',  controllersPayment.createPayment)
 
 router.post('/confirm-payment/', upload.uploadImg('img_pay'), controllerconfirmPayment.confirmPayment)
+router.get('/confirm-payment-list/', controllerconfirmPayment.getConfirmPaymentList)
+// router.get('/confirm-payment-list/:id', controllerconfirmPayment.getConfirmPaymentByUserId)
+router.get('/confirm-payment-detail/:invoice_no', controllerconfirmPayment.getConfirmPaymentDetail)
 
-router.get('/payment-complate-list/:id', controllersTransactionComplate.transactionComplateListByUserId)
-router.get('/payment-complate-list/', controllersTransactionComplate.transactionComplateList)
-router.get('/payment-complate/:invoice_no', controllersTransactionComplate.transactionComplateListByInvoiceNo)
+router.get('/transaction-complate-list/:id', controllersTransactionComplate.transactionComplateListByUserId)
+router.get('/transaction-complate-list/', controllersTransactionComplate.transactionComplateList)
+router.get('/transaction-complate-detail/:invoice_no', controllersTransactionComplate.transactionComplateListByInvoiceNo)
 
 
 
