@@ -42,7 +42,10 @@ const transactionComplateListByInvoiceNo = async(req, res) => {
                     include : [{
                         model: models.Jasa,
                         include : [{
-                            model: models.Sub_category
+                            model: models.Sub_category,
+                            include : [{
+                                model: models.Category
+                            }]
                         }]
                     }]
                 }]
@@ -92,6 +95,7 @@ const transactionComplateList = async(req, res) => {
         }
     }
 }
+
 
 module.exports= {
     transactionComplateList,

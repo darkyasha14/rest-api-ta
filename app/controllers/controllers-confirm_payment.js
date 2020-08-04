@@ -28,7 +28,7 @@ const confirmPayment = async(req, res) => {
             const targetPath = await path.resolve(process.env.IMG_PATH_UPLOAD) + '/' + titleImg(invoice_no) + ".png"        // ganti setiap file yg di upload menjadi .png
             const urlFile = await domainName + "/" + process.env.IMG_PATH_UPLOAD + titleImg(invoice_no) + '.png'                      // buat url untuk image tsb
             console.log(urlFile)
-
+            
             const data = await models.ConPayment.create({
                 name: name,
                 email: email,
@@ -75,7 +75,99 @@ const confirmPayment = async(req, res) => {
     }
 }
 
+const getConfirmPaymentList = async(req, res) => {
+    try {
+        const data = await models.ConPayment.findAll({
+                include : [{
+                    model: models.Booking,
+                    include : [{
+                        model: models.Jasa
+                    }]
+                }]
+            })
+
+        if(data){
+            return res.json({code: 0, message: 'successs get confirm payment list', data: data})
+        }else{
+            return res.json({code: 1, message: 'data not found', data: null})
+        }
+    } catch (error) {
+        console.log(error)
+        if(error.errors){
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
+        }else{
+            res.json({"code" : 1, "message" : error, "data": null})
+        }
+    }
+}
+
+const getConfirmPaymentByUserId = async(req, res) => {
+    try {
+        const {id} = req.params
+
+        const data = await models.ConPayment.findAll({where :{user_id : id},
+                include : [{
+                    model: models.Booking,
+                    include : [{
+                        model: models.Jasa,
+                    }]
+                }]
+            })
+
+        if(data){
+            return res.json({code: 0, message: 'successs get confirm payment by user', data: data})
+        }else{
+            return res.json({code: 1, message: 'data not found', data: null})
+        }
+    } catch (error) {
+        console.log(error)
+        if(error.errors){
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
+        }else{
+            res.json({"code" : 1, "message" : error, "data": null})
+        }
+    }
+}
+
+const getConfirmPaymentDetail = async(req, res) => {
+    try {
+        const {invoice_no} = req.params
+
+        const data = await models.ConPayment.findOne({where :{invoice_no : invoice_no},
+                include : [{
+                    model: models.Booking,
+                    include : [{
+                        model: models.Jasa,
+                        include : [{
+                            model: models.Sub_category,
+                            include : [{
+                                model: models.Category
+                            }]
+                        }]
+                    }]
+                }]
+            })
+
+        if(data){
+            console.log(data.dataValues);
+            return res.json({code: 0, message: 'successs get confirm payment by invoice_no', data: data})
+        }else{
+            return res.json({code: 1, message: 'data not found', data: null})
+        }
+    } catch (error) {
+        console.log(error)
+        if(error.errors){
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
+        }else{
+            res.json({"code" : 1, "message" : error, "data": null})
+        }
+    }
+}
+
 
 module.exports = { 
-    confirmPayment
+    confirmPayment,
+    getConfirmPaymentList,
+    getConfirmPaymentDetail,
+    getConfirmPaymentByUserId
 }
