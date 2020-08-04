@@ -14,6 +14,12 @@ const transactionComplateListByUserId = async(req, res) => {
                             model: models.Sub_category
                         }]
                     }]
+                },
+                {
+                    model: models.ConPayment
+                },
+                {
+                    model: models.User
                 }]
             })
 
@@ -48,6 +54,12 @@ const transactionComplateListByInvoiceNo = async(req, res) => {
                             }]
                         }]
                     }]
+                },
+                {
+                    model: models.ConPayment
+                },
+                {
+                    model: models.User
                 }]
             })
 
@@ -78,6 +90,12 @@ const transactionComplateList = async(req, res) => {
                         model: models.Sub_category
                     }]
                 }]
+            },
+            {
+                model: models.ConPayment
+            },
+            {
+                model: models.User
             }]
         })
 
