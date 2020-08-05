@@ -19,7 +19,7 @@ const verifyToken = async (req, res, next) => {
         
     }catch (err) {
         // message if token is expired
-        res.status(200).json({"code": 1, "message": `${err.message}`, "data": null })
+        res.status(200).json({"code": 99, "message": `${err.message}`, "data": null })
         
     }
 }
