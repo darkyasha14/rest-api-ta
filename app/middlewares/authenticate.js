@@ -4,7 +4,7 @@ require('dotenv').config()
 
 const login = async (req, res) => {
     try {
-        const {username, password, remember} = req.body
+        const {username, password} = req.body
         const data = await models.User.findOne({ where: {username: username} })
 
         if(data){
