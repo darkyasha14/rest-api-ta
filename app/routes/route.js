@@ -50,7 +50,7 @@ router.get('/jasa/',        controllersJasa.getJasalist)
 router.get('/jasa/:id',     controllersJasa.getJasaById)
 router.post('/jasa/',       controllersJasa.createJasa)
 router.put('/jasa/:id',     controllersJasa.updateJasa)
-router.delete('/delete-jasa/:id', controllersJasa.deleteJasa)
+router.delete('/jasa/:id', controllersJasa.deleteJasa)
 
 router.get('/profil/', controllersUser_profil.getProfilDetail)
 router.get('/profil/:id',  controllersUser_profil.getProfilbuUserID)
