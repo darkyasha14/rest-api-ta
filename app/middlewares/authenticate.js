@@ -25,7 +25,7 @@ const login = async (req, res) => {
                         is_login: true
                     }, process.env.JWT_KEY, { expiresIn: '1d' });
         
-                    return res.json({ code: 0, message: 'success authenticate', data: login, token: token });
+                    return res.json({ code: 0, message: 'success authenticate', data: data, token: token });
                 }else{
                     return res.json({ code: 1, message: 'your account is not activate, please check your email to verify and activate account', data: null });
                 }
