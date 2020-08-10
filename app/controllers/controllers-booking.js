@@ -60,7 +60,10 @@ const getBookingListByUserId = async(req, res) => {
                     }]
                 },
                 {
-                    model: models.User
+                    model: models.User,
+                    include : [{
+                        model: models.Profil
+                    }]
                 }]
             })
 
