@@ -253,10 +253,71 @@ const updateProfil = async(req, res) => {
     }
 }
 
+const deleteProfilePicture = async (req, res) => {
+    try {
+        const {user_id} = req.body
+
+        // get data by user_id
+        const data = await models.Profil.findOne({where: {user_id: user_id}})
+
+        // jika data ada
+        if(data){
+
+            // jika user profile ada imagenya
+            if(data.dataValues.user_img !== null){
+
+                // update column user_img menjadi null
+                const update = await models.Profil.update({
+                    user_img: null,
+                    update_at: new Date()
+                }, {where: {user_id: user_id}})
+
+                const imgName = path.basename(data.dataValues.user_img, '.png')                            // get filename yg berformat .png
+                const imgPath = path.resolve(process.env.IMG_PATH_UPLOAD) + '/' + imgName + '.png' 
+                    
+                // delete gambar, dengan mengambil path yg lama pada column user_img
+                await fs.unlink(imgPath, err => {
+                    if(err){
+                        console.log(err)
+                    }
+                })
+
+                if(update){
+                    const updateData = await models.Profil.findOne({
+                        where: {
+                        user_id: user_id
+                        },
+                        include : [ 
+                            {
+                                model: models.User
+                            }
+                        ]
+                    })
+
+                    return res.json({code: 0, message: 'profile picture successfully removed', data: updateData})
+                }else{
+                    return res.json({code: 1, message: "profile picture failed removed", data})
+                }
+
+            // jika user profile tidak ada imagenya
+            }else{
+                return res.json({code: 1, message: "profile picture not available or already removed", data})
+            }
+        }else{
+            return res.json({code: 1, message: "profile doesn't exist for this user_id", data: null})
+        }
+
+    } catch (error) {
+        if(error.errors) return res.json({code: 1, message: error.errors[0].message, data: null})
+        else return res.json({code: 1, message: error.message, data: null})
+    }
+}
+
 
 module.exports = {
     getProfilDetail,
     getProfilbuUserID,
     createProfil,
-    updateProfil
+    updateProfil,
+    deleteProfilePicture
 }
