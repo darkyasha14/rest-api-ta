@@ -22,7 +22,10 @@ const transactionComplateListByUserId = async(req, res) => {
                     model: models.ConPayment
                 },
                 {
-                    model: models.User
+                    model: models.User,
+                    include : [{
+                        model: models.Profil
+                    }]
                 }]
             })
 
