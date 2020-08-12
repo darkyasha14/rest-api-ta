@@ -57,9 +57,9 @@
                         <td>
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 50px;">
                                 <tr>
-                                    <td bgcolor="#FF234F" height="30px" width="5px">
+                                    <td bgcolor="#05B432" height="30px" width="5px">
                                     </td>
-                                    <td style=" padding: 5px; font-family: Arial, sans-serif; font-size: 16px; color: #FF234F;">
+                                    <td style=" padding: 5px; font-family: Arial, sans-serif; font-size: 16px; color: #05B432;">
                                     <b>PAID</b> 
                                     </td>
                                 </tr>
@@ -81,61 +81,91 @@
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff"  style="font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 20px;">
                                 <tr>
                                  <td width="260" valign="center" style="padding: 5px;">
-                                    <p style="color: #979696;">Discount</p>
+                                    <p style="color: #979696;">Invoice Number</p>
                                  </td>
                                  <td style="font-size: 0; line-height: 0;" width="20">
                                   &nbsp;
                                  </td>
                                  <td width="260" valign="center"">
-                                  <p style="color: #008CBA;">Rp. {{jasa}}</p> 
+                                  <p style="color: #008CBA;">{{invoice_no}}</p> 
                                  </td>
                                 </tr>
                                 <tr>
                                     <td width="260" valign="center" style="padding: 5px;">
-                                        <p style="color: #979696;">Discount</p>
+                                        <p style="color: #979696;">Name</p>
                                     </td>
                                     <td style="font-size: 0; line-height: 0;" width="20">
                                      &nbsp;
                                     </td>
                                     <td width="260" valign="center">
-                                        <p style="color: #008CBA;">0%</p> 
+                                        <p style="color: #008CBA;">{{payment_name}}</p> 
+                                    </td>
+                                   </tr>
+                                   <tr>
+                                    <td width="260" valign="center" style="padding: 5px;">
+                                        <p style="color: #979696;">Email</p>
+                                    </td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">
+                                     &nbsp;
+                                    </td>
+                                    <td width="260" valign="center">
+                                        <p style="color: #008CBA;">{{payment_email}}</p> 
+                                    </td>
+                                   </tr>
+                                   <tr>
+                                    <td width="260" valign="center" style="padding: 5px;">
+                                        <p style="color: #979696;">Date</p>
+                                    </td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">
+                                     &nbsp;
+                                    </td>
+                                    <td width="260" valign="center">
+                                        <p style="color: #008CBA;">{{payment_date}}</p> 
+                                    </td>
+                                   </tr>
+                                   <tr>
+                                    <td width="260" valign="center" style="padding: 5px;">
+                                        <p style="color: #979696;">Total Price</p>
+                                    </td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">
+                                     &nbsp;
+                                    </td>
+                                    <td width="260" valign="center">
+                                        <p style="color: #008CBA;">{{total_price}}</p> 
+                                    </td>
+                                   </tr>
+                                   <tr>
+                                    <td width="260" valign="center" style="padding: 5px;">
+                                        <p style="color: #979696;">Payment Method</p>
+                                    </td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">
+                                     &nbsp;
+                                    </td>
+                                    <td width="260" valign="center">
+                                        <p style="color: #008CBA;">{{payment_method}}</p> 
                                     </td>
                                    </tr>
                                </table>
                         </td>
                     </tr> 
-                    <tr>
-                        <td>
-                            <table  cellpadding="0" cellspacing="0" width="100%" height="30px" style="font-family: Arial, sans-serif; font-size: 14px; border: 1px solid #70bbd9; margin-bottom: 30px;">
-                                <tr>
-                                 <td width="260" style="padding: 0 0 0 8px;">
-                                    <p style="color:rgb(36, 35, 35)">Total</p>  
-                                 </td>
-                                 <td bgcolor="#70bbd9" style="padding: 0 8px 0 8px;">
-                                  <p style="color:white">Rp. {{jasa}} </p> 
-                                 </td>
-                                </tr>
-                               </table>
-                        </td>
-                    </tr> 
                     
-        <tr>
-            <td align="center">
-               &nbsp;
-            </td>
-        </tr>
-        <tr>
-            <td bgcolor="#70bbd9" style="padding: 10px 0 5px 0;" >
-                <table border="0" cellpadding="0" cellspacing="0" align="center">
                     <tr>
-                        <td align="center" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
-                            <p align="center">&reg; Darkyasha, Tokyo 2020<br/>
-                            <a href="#" style="color: #ffffff;"><font color="#ffffff">Unsubscribe</font></a> to this newsletter instantly</p>
-                         </td>
+                        <td align="center">
+                           &nbsp;
+                        </td>
                     </tr>
-                </table>
-             </td>
-         </tr>
+                    <tr>
+                        <td bgcolor="#70bbd9" style="padding: 10px 0 5px 0;" >
+                            <table border="0" cellpadding="0" cellspacing="0" align="center">
+                                <tr>
+                                    <td align="center" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
+                                        <p align="center">&reg; Darkyasha, Tokyo 2020<br/>
+                                        <a href="#" style="color: #ffffff;"><font color="#ffffff">Unsubscribe</font></a> to this newsletter instantly</p>
+                                     </td>
+                                </tr>
+                            </table>
+                         </td>
+                     </tr>
     </table>
    </body>
 </html>
