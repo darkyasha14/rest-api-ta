@@ -189,7 +189,11 @@ const updatePaymentStatus = async (req, res) => {
                                         {
                                             model : models.User,
                                             attributes : ["name","email"]
+                                        },
+                                        {
+                                            model : models.ConPayment
                                         }
+
                                     ]
                                 }
                             )
@@ -198,6 +202,13 @@ const updatePaymentStatus = async (req, res) => {
                         const params = {
                             name: updateData.dataValues.User.dataValues.name,
                             email: updateData.dataValues.User.dataValues.email,
+                            payment_name: updateData.dataValues.ConPayment.dataValues.name,
+                            payment_email: updateData.dataValues.ConPayment.dataValues.email,
+                            payment_date: updateData.dataValues.ConPayment.dataValues.payment_date,
+                            total_price: updateData.dataValues.ConPayment.dataValues.total_price,
+                            payment_method: updateData.dataValues.ConPayment.dataValues.payment_method,
+                            invoice_no: updateData.dataValues.ConPayment.dataValues.invoice_no,
+
                         }
             
                         await mail.sendMailTransactionComplate(params)
