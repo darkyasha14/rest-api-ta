@@ -81,14 +81,36 @@
                         <td>
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff"  style="font-family: Arial, sans-serif; font-size: 14px; margin-bottom: 20px;">
                                 <tr>
-                                 <td width="260" valign="center" style="padding: 5px;">
-                                    <p style="color: #979696;">Discount</p>
-                                 </td>
+                                    <td width="260" valign="center" style="padding: 5px;">
+                                        <p style="color: #979696;">Item</p>
+                                    </td>
                                  <td style="font-size: 0; line-height: 0;" width="20">
                                   &nbsp;
                                  </td>
                                  <td width="260" valign="center"">
-                                  <p style="color: #008CBA;">Rp. {{jasa}}</p> 
+                                     <p style="color: #008CBA;">{{item}}</p> 
+                                 </td>
+                                </tr>
+                                <tr>
+                                    <td width="260" valign="center" style="padding: 5px;">
+                                        <p style="color: #979696;">Jasa</p>
+                                    </td>
+                                 <td style="font-size: 0; line-height: 0;" width="20">
+                                  &nbsp;
+                                 </td>
+                                 <td width="260" valign="center"">
+                                     <p style="color: #008CBA;">{{jasa}}</p> 
+                                 </td>
+                                </tr>
+                                <tr>
+                                    <td width="260" valign="center" style="padding: 5px;">
+                                        <p style="color: #979696;">Price</p>
+                                    </td>
+                                 <td style="font-size: 0; line-height: 0;" width="20">
+                                  &nbsp;
+                                 </td>
+                                 <td width="260" valign="center"">
+                                     <p style="color: #008CBA;">{{price}}</p> 
                                  </td>
                                 </tr>
                                 <tr>
@@ -113,7 +135,7 @@
                                     <p style="color:rgb(36, 35, 35)">Total</p>  
                                  </td>
                                  <td bgcolor="#70bbd9" style="padding: 0 8px 0 8px;">
-                                  <p style="color:white">Rp. {{jasa}} </p> 
+                                  <p style="color:white">Rp.{{price}} </p> 
                                  </td>
                                 </tr>
                                </table>
@@ -174,11 +196,7 @@
                    </table>
                </td>
         </tr>
-        <tr>
-            <td align="center">
-               <button class="button button2"><b>Pay Now</b></button>
-            </td>
-        </tr>
+
         <tr>
             <td align="center">
                &nbsp;
