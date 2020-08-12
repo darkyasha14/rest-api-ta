@@ -15,7 +15,7 @@ app.use(cors())  //allow origin api dak diblock
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended : false }))
 
-app.get('/', (req,res) => {
+app.get('/info', (req,res) => {
     res.json({name : "darkyasha", title : "author"})
 })
 
