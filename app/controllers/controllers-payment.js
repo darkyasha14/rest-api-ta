@@ -19,14 +19,27 @@ const createPayment = async ( req, res) => {
                         {
                             model : models.User,
                             attributes : ["name","email"]
+                        },
+                        {
+                            model : models.Booking,
+                            include : [{
+                                model: models.Jasa,
+                                include : [{
+                                    model: models.Sub_category
+                                }]
+                            }]
                         }
                     ]
                 }
             )
-            console.log(data.dataValues)
+            console.log(data.dataValues.Booking)
             const params = {
                 name: data.dataValues.User.dataValues.name,
                 email: data.dataValues.User.dataValues.email,
+                jasa: data.dataValues.Booking.dataValues.Jasa.dataValues.jasa_name,
+                price: data.dataValues.Booking.dataValues.Jasa.dataValues.jasa_price,
+                item: data.dataValues.Booking.dataValues.Jasa.dataValues.Sub_category.dataValues.sub_category_name
+
             }
 
             await mail.sendMailPayment(params)
