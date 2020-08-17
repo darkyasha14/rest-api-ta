@@ -55,7 +55,7 @@ router.delete('/jasa/:id', isAuthenticate,controllersJasa.deleteJasa)
 router.get('/profil/', isAuthenticate,controllersUser_profil.getProfilDetail)
 router.get('/profil/:id',  isAuthenticate,controllersUser_profil.getProfilbuUserID)
 router.post('/add-profil/',  upload.uploadImg('user_img'), controllersUser_profil.createProfil)
-router.put('/update-profil/:id', isAuthenticate, upload.uploadImg('user_img'), controllersUser_profil.updateProfil)
+router.put('/update-profil/', isAuthenticate, upload.uploadImg('user_img'), controllersUser_profil.updateProfil)
 router.post('/delete-profil-picture/', isAuthenticate, controllersUser_profil.deleteProfilePicture)
 
 router.post('/booking/',  isAuthenticate,controllersBooking.createNewBooking)

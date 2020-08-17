@@ -148,10 +148,10 @@ const createProfil = async(req, res) => {
 
 const updateProfil = async(req, res) => {
     try {
-        const {id} = req.params
+        const {user_id} = req.body
         const {phone} = req.body
 
-        const data = await models.Profil.findOne({where : {user_id: id},
+        const data = await models.Profil.findOne({where : {user_id: user_id},
             include : [ 
                 {
                     model: models.User
@@ -172,7 +172,7 @@ const updateProfil = async(req, res) => {
                     phone: phone,
                     user_img : urlFile,
                     update_at: new Date()
-                },{where : {user_id: id}})
+                },{where : {user_id: user_id}})
     
                 // jika data success di update
                 if(update){
@@ -216,7 +216,7 @@ const updateProfil = async(req, res) => {
                 const update = await models.Profil.update({
                     phone: phone,
                     update_at: new Date()
-                },{where : {user_id: id}})
+                },{where : {user_id: user_id}})
     
                 if(update){
                     const uploadData = await models.Profil.findOne({
