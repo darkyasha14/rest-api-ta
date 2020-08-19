@@ -36,7 +36,7 @@ const getSubCategorylist = async(req, res) => {
 const getSubCategoryById = async (req, res) => {
     try {
         const {id} = req.params
-        const data = await models.Sub_category.findOne({
+        const data = await models.Sub_category.findAll({
             where : 
             {
                 sub_category_id : id
