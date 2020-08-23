@@ -68,10 +68,11 @@ module.exports = (sequelize, DataTypes) => {
                 }
             }
         },
-        token_text: {
-            type: DataTypes.TEXT,
-            allowNull: true 
-        },
+        // token_text: {
+        //     type: DataTypes.TEXT,
+        //     allowNull: true 
+        
+        // },
         is_login: {
             type: DataTypes.BOOLEAN,
             allowNull: true,
