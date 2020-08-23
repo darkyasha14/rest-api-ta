@@ -21,6 +21,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(6),
             allowNull: false 
         },
+        booking_expired: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
+        },
         createdAt:{
             type: DataTypes.DATE,
             allowNull: true, 
