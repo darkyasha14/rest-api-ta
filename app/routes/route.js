@@ -62,6 +62,7 @@ router.post('/booking/',  isAuthenticate,controllersBooking.createNewBooking)
 router.get('/booking-list/', isAuthenticate, controllersBooking.getAllBookingList)
 router.get('/booking-detail/:invoice_no', isAuthenticate, controllersBooking.getBookingByInvoice)
 router.get('/booking-list/:user_id', isAuthenticate, controllersBooking.getBookingListByUserId)
+router.get('/booking-list-user/:user_id', isAuthenticate, controllersBooking.getBookingListById)
 router.post('/booking-update-status/', isAuthenticate,controllersBooking.updatePaymentStatus)
 
 router.post('/payment/', isAuthenticate, controllersPayment.createPayment)
