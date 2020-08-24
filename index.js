@@ -2,12 +2,21 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
+const cron = require('node-cron');   // library untuk merunning task secara scheduler
 
 require('dotenv').config()
 
 const app = express()
 const route = require('./app/routes/route')
 const models = require('./database/models/index')
+const controllerBooking = require('./app/controllers/controllers-booking')
+
+
+// update booking ecpired setiap 30 menit
+cron.schedule('*/30 * * * *', () => {
+    console.log("Running task every 30 minutes")
+    controllerBooking.updateBookingExpiredStatus()
+});
 
 
 app.use(cors())  //allow origin api dak diblock
