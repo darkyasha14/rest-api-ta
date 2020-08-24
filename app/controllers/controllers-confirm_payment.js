@@ -19,43 +19,48 @@ const confirmPayment = async(req, res) => {
     try {
         const {name, email, payment_date, total_price, payment_method, invoice_no, description} = req.body
 
-        // jika dalam request terdapat file
-        console.log(req.file)
         const getInvoice = await models.Booking.findOne({where: {invoice_no: invoice_no}})
         if(getInvoice){
-            if(req.file){
-                const domainName = await domain.getFullDomainURL(req)
-    
-                const tempPath = await req.file.path                                                                       // ambil file path setelah di upload di folder tmp
-                const targetPath = await path.resolve(process.env.IMG_PATH_UPLOAD) + '/' + titleImg(invoice_no) + ".png"        // ganti setiap file yg di upload menjadi .png
-                const urlFile = await domainName + "/" + process.env.IMG_PATH_UPLOAD + titleImg(invoice_no) + '.png'                      // buat url untuk image tsb
-                console.log(urlFile)
+            // Cek apakah booking telah expired, false belum, true sudah expired
+            if(getInvoice.dataValues.booking_expired === false){
+                // jika dalam request terdapat file
+                if(req.file){
+                    console.log(req.file)
+                    const domainName = await domain.getFullDomainURL(req)
+        
+                    const tempPath = await req.file.path                                                                       // ambil file path setelah di upload di folder tmp
+                    const targetPath = await path.resolve(process.env.IMG_PATH_UPLOAD) + '/' + titleImg(invoice_no) + ".png"        // ganti setiap file yg di upload menjadi .png
+                    const urlFile = await domainName + "/" + process.env.IMG_PATH_UPLOAD + titleImg(invoice_no) + '.png'                      // buat url untuk image tsb
+                    console.log(urlFile)
+                    
+                    const data = await models.ConPayment.create({
+                        name: name,
+                        email: email,
+                        payment_date: payment_date,
+                        total_price: total_price,
+                        payment_method: payment_method,
+                        invoice_no: invoice_no,
+                        description: description,
+                        img_pay : urlFile,
+                    })
                 
-                const data = await models.ConPayment.create({
-                    name: name,
-                    email: email,
-                    payment_date: payment_date,
-                    total_price: total_price,
-                    payment_method: payment_method,
-                    invoice_no: invoice_no,
-                    description: description,
-                    img_pay : urlFile,
-                })
-            
-                    if(data){
-                        // pindahkan file dari folder tmp ke target path (public/image) dengan format img png
-                        await fs.rename(tempPath, targetPath, err => {
-                            if (err){
-                                console.log(err);
-                            }
-                        })
-    
-                        return res.status(201).json({code: 0, message: 'successfully, please wait to confirm by admin', data: data})
-                    }else{
-                        return res.json({code: 1, message: 'failled', data: null})
-                    }
-            }else{
+                        if(data){
+                            // pindahkan file dari folder tmp ke target path (public/image) dengan format img png
+                            await fs.rename(tempPath, targetPath, err => {
+                                if (err){
+                                    console.log(err);
+                                }
+                            })
+        
+                            return res.status(201).json({code: 0, message: 'successfully, please wait to confirm by admin', data: data})
+                        }else{
+                            return res.json({code: 1, message: 'failled', data: null})
+                        }
+                }else{
                     return res.json({code: 1, message: 'you must upload an image to confirm payment', data: null})  
+                }
+            }else{
+                return res.json({code: 1, message: 'the booking for this invoice already expired', data: null})
             }
         }else{
             return res.json({code: 1, message: 'invoice_no not found, you must booking first', data: null})
