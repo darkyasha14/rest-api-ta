@@ -1,18 +1,21 @@
 const models = require('../../database/models')
 const invoice = require('./../helper/get-invoice');
 const mail = require('../helper/send-email')
-
+const dateConvert = require('../helper/date-convert')
+const { Op } = require('sequelize')
 
 const createNewBooking = async ( req, res) => {
     console.log(req.body);
     try {
         const {user_id, jasa_id} = req.body
+        const expDate = dateConvert.expiredBooking(1)
 
         const data = await models.Booking.create({
             invoice_no: invoice.getInvoice(),
             user_id : user_id,
             jasa_id : jasa_id,
-            payment_status : "UNPAID"
+            payment_status : "UNPAID",
+            booking_expired_date : expDate
         })
 
         if(data){
@@ -33,7 +36,7 @@ const createNewBooking = async ( req, res) => {
                 ]
             })
 
-            return res.status(201).json({"code" : 0, "message" : "booking successfully", "data": data_result})
+            return res.status(201).json({"code" : 0, "message" : "booking successfully", "booking_expired_date" : expDate, "data": data_result})
         }else{
             
             return res.json({"code": 1, "message" : "booking failled", "data": null})
@@ -234,10 +237,79 @@ const updatePaymentStatus = async (req, res) => {
         }
     }
 }
+
+const updateBookingExpiredStatus = async () => {
+    try {
+
+        const data = await models.Booking.findAll({
+            where : {
+                created_at : {
+                    [Op.gte] : new Date().getTime() - (2 * 60 * 60 * 1000)
+                }
+            }
+        })
+
+        data.forEach(element => {
+            const { invoice_no, booking_expired_date } = element.dataValues
+
+            const nowTimestamp = new Date().getTime()
+            const expBookingTimestamp = new Date(booking_expired_date).getTime()
+
+            // Ambil data booking 2 jam sebelumnya
+            if(nowTimestamp > expBookingTimestamp){
+                models.Booking.update({
+                    booking_expired: true,
+                    updated_at : new Date()
+                }, {where: {invoice_no: invoice_no} })
+            }
+            
+            console.log(element.dataValues)
+        });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const getBookingListById = async(req, res) => {
+    try {
+        const {user_id} = req.params
+
+        const data = await models.Booking.findAll({where :{user_id: user_id, payment_status: "UNPAID", booking_expired: false},
+                include : [{
+                    model: models.Jasa,
+                    include : [{
+                        model: models.Sub_category
+                    }]
+                },
+                {
+                    model: models.User,
+                    include : [{
+                        model: models.Profil
+                    }]
+                }]
+            })
+
+        if(data){
+            return res.json({code: 0, message: 'successs get booking list by user ID', data: data})
+        }else{
+            return res.json({code: 1, message: 'data not found', data: null})
+        }
+    } catch (error) {
+        console.log(error)
+        if(error.errors){
+            res.json({"code": 1, "message": error.errors[0].message, "data" : null})
+        }else{
+            res.json({"code" : 1, "message" : error, "data": null})
+        }
+    }
+}
+
 module.exports = {
     createNewBooking,
     getBookingListByUserId,
     getBookingByInvoice,
     getAllBookingList,
-    updatePaymentStatus
+    updatePaymentStatus,
+    updateBookingExpiredStatus,
+    getBookingListById
 }
