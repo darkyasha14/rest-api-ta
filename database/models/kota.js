@@ -3,7 +3,7 @@
 module.exports = (sequelize, DataTypes) => {
     const Kota = sequelize.define('Kota', {
         kota_id : {
-            type: DataTypes.BIGINT,
+            type: DataTypes.STRING(24),
             primaryKey: true,
         },
         nama : {
