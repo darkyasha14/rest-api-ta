@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         kota_id : {
-            type: DataTypes.BIGINT,
+            type: DataTypes.STRING(24),
             allowNull: false,
         },
         kecamatan_id : {
