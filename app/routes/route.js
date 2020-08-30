@@ -12,6 +12,11 @@ const controllersPayment= require('../controllers/controllers-payment')
 const controllerconfirmPayment= require('../controllers/controllers-confirm_payment')
 const controllersTransactionComplate= require('../controllers/controllers-transaction_complate')
 
+const controllersAddress = require('../controllers/controllers-address')
+const controllersKota = require('../controllers/controllers-kota')
+const controllersKecamatan = require('../controllers/controllers-kecamatan')
+const controllersKelurahan = require('../controllers/controllers-kelurahan')
+
 const isAuthenticate = require('../middlewares/verify-token')
 const auth = require('../middlewares/authenticate')
 const controllersUser_profil = require("../controllers/controllers-user_profil")
@@ -75,6 +80,11 @@ router.get('/confirm-payment-detail/:invoice_no',isAuthenticate, controllerconfi
 router.get('/transaction-complate-list/:id',isAuthenticate, controllersTransactionComplate.transactionComplateListByUserId)
 router.get('/transaction-complate-list/',isAuthenticate, controllersTransactionComplate.transactionComplateList)
 router.get('/transaction-complate-detail/:invoice_no',isAuthenticate, controllersTransactionComplate.transactionComplateListByInvoiceNo)
+
+router.post('/kota/', controllersKota.createNewKota)
+router.post('/kecamatan/', controllersKecamatan.createNewKecamatan)
+router.post('/kelurahan/', controllersKelurahan.createNewKelurahan)
+router.post('/add-address/', controllersAddress.createUserAddress)
 
 
 
