@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
         },
         kota_id : {
-            type: DataTypes.BIGINT,
+            type: DataTypes.STRING(24),
             allowNull: false,
         },
         nama : {
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     },
     {
-        tableName: 't_Kecamatan',
+        tableName: 't_kecamatan',
         undersrored: true
     })
 
