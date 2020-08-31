@@ -82,9 +82,28 @@ router.get('/transaction-complate-list/',isAuthenticate, controllersTransactionC
 router.get('/transaction-complate-detail/:invoice_no',isAuthenticate, controllersTransactionComplate.transactionComplateListByInvoiceNo)
 
 router.post('/kota/', controllersKota.createNewKota)
+router.get('/kota', controllersKota.getAllKota)
+router.get('/kota-detail/:id', controllersKota.getKotaDetail)
+router.delete('/truncate-kota/', controllersKota.truncateTableKota)
+
 router.post('/kecamatan/', controllersKecamatan.createNewKecamatan)
+router.get('/kecamatan/', controllersKecamatan.getListKecamatan)
+router.get('/kecamatan/:kota_id', controllersKecamatan.getListKecamatanByKotaId)
+router.get('/kecamatan-detail/:id', controllersKecamatan.getKecamatanDetail)
+router.delete('/truncate-kecamatan/', controllersKecamatan.truncateTableKecamatan)
+
 router.post('/kelurahan/', controllersKelurahan.createNewKelurahan)
+router.get('/kelurahan/', controllersKelurahan.getListKelurahan)
+router.get('/kelurahan/:kecamatan_id', controllersKelurahan.getListKelurahanByKecamatanId)
+router.get('/kelurahan-detail/:id', controllersKelurahan.getKelurahanDetail)
+router.delete('/truncate-kelurahan/', controllersKelurahan.truncateTableKelurahan)
+
 router.post('/add-address/', controllersAddress.createUserAddress)
+router.get('/address-list/', controllersAddress.getaddressByUserId)
+router.get('/address-detail/', controllersAddress.getaddressDetail)
+router.put('/address-update/', controllersAddress.updateAddress)
+router.delete('/address-delete/', controllersAddress.deleteAddress)
+
 
 
 
