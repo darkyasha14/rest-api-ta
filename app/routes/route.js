@@ -99,7 +99,7 @@ router.get('/kelurahan-detail/:id', controllersKelurahan.getKelurahanDetail)
 router.delete('/truncate-kelurahan/', controllersKelurahan.truncateTableKelurahan)
 
 router.post('/add-address/', controllersAddress.createUserAddress)
-router.get('/address-list/', controllersAddress.getaddressByUserId)
+router.get('/address-list/:id', controllersAddress.getaddressByUserId)
 router.get('/address-detail/', controllersAddress.getaddressDetail)
 router.put('/address-update/', controllersAddress.updateAddress)
 router.delete('/address-delete/', controllersAddress.deleteAddress)
