@@ -5,7 +5,29 @@ const getaddressDetail = async (req, res) => {
     
     try {
         const {user_id, address_id} = req.body
-        const data = await models.Address.findOne({where : {user_id: user_id, address_id : address_id}})
+        const data = await models.Address.findOne(
+            {
+                where : {
+                    user_id: user_id, address_id : address_id
+                },include: [
+                    {
+                        model : models.Kelurahan,
+                        attributes : ["kelurahan_id", "nama"],
+                        include: [
+                            {
+                                model : models.Kecamatan,
+                                attributes : ["kecamatan_id", "nama"],
+                                include: [
+                                    {
+                                        model : models.Kota,
+                                        attributes : ["kota_id", "nama"]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            })
         if(data){
             return res.json({"code" : 0, "message" : "Successfully get address", "data" : data})
         }else{
@@ -25,8 +47,30 @@ const getaddressByUserId = async (req, res) => {
     console.log(req.params);
     
     try {
-        const {user_id} = req.body
-        const data = await models.Address.findAll({where : {user_id: user_id}})
+        const {id} = req.params
+        const data = await models.Address.findOne(
+            {
+                where : {
+                    user_id: id
+                },include: [
+                    {
+                        model : models.Kelurahan,
+                        attributes : ["kelurahan_id", "nama"],
+                        include: [
+                            {
+                                model : models.Kecamatan,
+                                attributes : ["kecamatan_id", "nama"],
+                                include: [
+                                    {
+                                        model : models.Kota,
+                                        attributes : ["kota_id", "nama"]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+        })
         if(data){
             return res.json({"code" : 0, "message" : "Successfully get address by user Id", "data" : data})
         }else{
