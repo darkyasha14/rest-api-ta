@@ -26,9 +26,9 @@ const sendMailRegister = async (params) => {
         html: mustache.render(template, params),
         attachments:[
             {
-                filename : 'gi.png',
+                filename : 'logo1.png',
                 path: path.join(__dirname + './../../public/views/images/gi.png'),
-                cid : 'g1'
+                cid : 'logo1'
             }
         ]
            
@@ -55,9 +55,9 @@ const sendMailPayment = async(params) => {
         html: mustache.render(template, params),
         attachments:[
             {
-                filename : 'gi.png',
+                filename : 'logo1.png',
                 path: path.join(__dirname + './../../public/views/images/gi.png'),
-                cid : 'g1'
+                cid : 'logo1'
             },
             {
                 filename : 'mandiri.png',
@@ -102,9 +102,9 @@ const sendMailTransactionComplate = async(params) => {
         html: mustache.render(template, params),
         attachments:[
             {
-                filename : 'gi.png',
+                filename : 'logo1.png',
                 path: path.join(__dirname + './../../public/views/images/gi.png'),
-                cid : 'g1'
+                cid : 'logo1'
             }
         ]
     }
