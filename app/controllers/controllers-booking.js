@@ -304,6 +304,7 @@ const getBookingListById = async(req, res) => {
     }
 }
 
+
 module.exports = {
     createNewBooking,
     getBookingListByUserId,
