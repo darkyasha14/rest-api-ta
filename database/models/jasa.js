@@ -14,11 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         jasa_name : {
             type: DataTypes.STRING(20),
             allowNull : false,
-            unique: {
-                args : true,
-                msg : "name of jasa already exist"
-
-            },
         },
         jasa_desc : {
             type: DataTypes.STRING(50),
