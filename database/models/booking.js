@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BIGINT,
             allowNull: true
         },
+        address_id : {
+            type: DataTypes.BIGINT,
+            allowNull: true
+        },
         payment_status:{
             type: DataTypes.STRING(6),
             allowNull: false 
@@ -71,6 +75,11 @@ module.exports = (sequelize, DataTypes) => {
         })
         Booking.hasOne(models.TransactionCom, {
             foreignKey: 'invoice_no',
+            onDelete: 'CASCADE',
+            onUpdate: 'CASCADE'
+        })
+        Booking.belongsTo(models.Address, {
+            foreignKey: 'address_id',
             onDelete: 'CASCADE',
             onUpdate: 'CASCADE'
         })
