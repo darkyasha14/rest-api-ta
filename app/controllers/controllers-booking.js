@@ -7,13 +7,14 @@ const { Op } = require('sequelize')
 const createNewBooking = async ( req, res) => {
     console.log(req.body);
     try {
-        const {user_id, jasa_id} = req.body
+        const {user_id, jasa_id, address_id} = req.body
         const expDate = dateConvert.expiredBooking(1)
 
         const data = await models.Booking.create({
             invoice_no: invoice.getInvoice(),
             user_id : user_id,
             jasa_id : jasa_id,
+            address_id : address_id,
             payment_status : "UNPAID",
             booking_expired_date : expDate
         })
@@ -129,7 +130,27 @@ const getAllBookingList = async(req, res) => {
                     }]
                 },
                 {
-                    model: models.User
+                    model: models.User,
+                    include : [{
+                        model: models.Address,
+                        include : [{
+                            model : models.Kelurahan,
+                            attributes : ["kelurahan_id", "nama"],
+                            include: [
+                                {
+                                    model : models.Kecamatan,
+                                    attributes : ["kecamatan_id", "nama"],
+                                    include: [
+                                        {
+                                            model : models.Kota,
+                                            attributes : ["kota_id", "nama"]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }]
+                    }]
+                    
                 }]
             })
 
@@ -285,6 +306,25 @@ const getBookingListById = async(req, res) => {
                     model: models.User,
                     include : [{
                         model: models.Profil
+                    }]
+                },
+                {
+                    model: models.Address,
+                    include : [{
+                        model : models.Kelurahan,
+                        attributes : ["kelurahan_id", "nama"],
+                        include: [
+                            {
+                                model : models.Kecamatan,
+                                attributes : ["kecamatan_id", "nama"],
+                                include: [
+                                    {
+                                        model : models.Kota,
+                                        attributes : ["kota_id", "nama"]
+                                    }
+                                ]
+                            }
+                        ]
                     }]
                 }]
             })
