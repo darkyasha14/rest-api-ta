@@ -7,7 +7,7 @@ const { Op } = require('sequelize')
 const createNewBooking = async ( req, res) => {
     console.log(req.body);
     try {
-        const {user_id, jasa_id, address_id} = req.body
+        const {user_id, jasa_id, address_id, working_date} = req.body
         const expDate = dateConvert.expiredBooking(1)
 
         const data = await models.Booking.create({
@@ -15,6 +15,7 @@ const createNewBooking = async ( req, res) => {
             user_id : user_id,
             jasa_id : jasa_id,
             address_id : address_id,
+            working_date : working_date,
             payment_status : "UNPAID",
             booking_expired_date : expDate
         })
