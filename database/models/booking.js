@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.BIGINT,
             allowNull: true
         },
+        working_date:{
+            type: DataTypes.DATE,
+            allowNull: false, 
+        },
         payment_status:{
             type: DataTypes.STRING(6),
             allowNull: false 
