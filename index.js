@@ -12,11 +12,8 @@ const models = require('./database/models/index')
 const controllerBooking = require('./app/controllers/controllers-booking')
 
 
-// update booking ecpired setiap 30 menit
-cron.schedule('*/30 * * * *', () => {
-    console.log("Running task every 30 minutes")
-    controllerBooking.updateBookingExpiredStatus()
-});
+const deleteFile = require('./app/helper/delete-files')
+
 
 
 app.use(cors())  //allow origin api dak diblock
@@ -31,6 +28,18 @@ app.get('/info', (req,res) => {
 app.use('/public', express.static(path.join(__dirname, 'public')))
 
 app.use('/api/', route)
+
+// update booking ecpired setiap 30 menit
+cron.schedule('*/30 * * * *', () => {
+    console.log("Running task every 30 minutes")
+    controllerBooking.updateBookingExpiredStatus()
+});
+
+// Delete seluruh file dalam folder tmp setiap jam 1 malam
+cron.schedule('* 1 * * *', () => {
+    console.log("Delete file in tmp folder every 01:00 am")
+    deleteFile.deleteFileinTmpDir()
+})
 
 
 models.sequelize.sync({alter: true }).then(() => {
