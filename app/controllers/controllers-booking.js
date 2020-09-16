@@ -263,13 +263,18 @@ const updatePaymentStatus = async (req, res) => {
 const updateBookingExpiredStatus = async () => {
     try {
 
-        const data = await models.Booking.findAll({
-            where : {
-                created_at : {
-                    [Op.gte] : new Date().getTime() - (2 * 60 * 60 * 1000)
-                }
-            }
-        })
+        /* Ambil seluruh data booking */
+        const data = await models.Booking.findAll()
+
+        
+        // /* Ambil data booking 2 jam sebelumnya */
+        // const data = await models.Booking.findAll({
+        //     where : {
+        //         created_at : {
+        //             [Op.gte] : new Date().getTime() - (2 * 60 * 60 * 1000)                                    
+        //         }
+        //     }
+        // })
 
         data.forEach(element => {
             const { invoice_no, booking_expired_date } = element.dataValues
@@ -277,7 +282,7 @@ const updateBookingExpiredStatus = async () => {
             const nowTimestamp = new Date().getTime()
             const expBookingTimestamp = new Date(booking_expired_date).getTime()
 
-            // Ambil data booking 2 jam sebelumnya
+            // Jika timestamp sekarang lebih besar dari timestamp booking expired date
             if(nowTimestamp > expBookingTimestamp){
                 models.Booking.update({
                     booking_expired: true,
